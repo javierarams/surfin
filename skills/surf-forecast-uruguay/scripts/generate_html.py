@@ -32,10 +32,13 @@ import math
 import os
 import sys
 from typing import Any
+from zoneinfo import ZoneInfo
 
 
 CARDINALS = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
              "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
+
+UY_TZ = ZoneInfo("America/Montevideo")
 
 WEEKDAYS_ES = {
     "monday": "Lu", "tuesday": "Ma", "wednesday": "Mi", "thursday": "Ju",
@@ -265,6 +268,7 @@ header { padding: 28px 24px 22px; background: linear-gradient(135deg, #0c4a6e 0%
          color: white; }
 header h1 { margin: 0 0 6px; font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
 header .meta { opacity: 0.9; font-size: 13px; }
+header .meta a { color: inherit; }
 main { max-width: 1500px; margin: 0 auto; padding: 24px; }
 
 section h2 { font-size: 20px; margin: 8px 0 16px; font-weight: 600; color: #0f172a; }
@@ -583,8 +587,9 @@ def render_html(scored: dict, normalized: dict, spots_by_slug: dict,
 <header>
   <h1>🌊 Surf Forecast — Uruguay</h1>
   <div class="meta">
-    Generado: {esc(generated_at)} · Modelo: {esc(model)} · Init: {esc(initdate)} UTC ·
-    {len(stations_used)} estaciones · Fuente: Windguru
+    Generado: {esc(generated_at)} (hora de Uruguay) · Modelo: {esc(model)} ·
+    Init: {esc(initdate)} UTC · {len(stations_used)} estaciones ·
+    Fuente: <a href="https://www.windguru.cz" target="_blank" rel="noopener">Windguru</a>
   </div>
 </header>
 <main>
@@ -598,7 +603,7 @@ def render_html(scored: dict, normalized: dict, spots_by_slug: dict,
   </section>
 </main>
 <footer>
-  Datos: <a href="https://www.windguru.cz" target="_blank">windguru.cz</a> ·
+  Datos: <a href="https://www.windguru.cz" target="_blank" rel="noopener">windguru.cz</a> ·
   Scoring custom: viento (40), dirección de swell (30), tamaño de ola (30) ·
   ✅ ≥70 bueno · ⚠️ 50–69 moderado · ❌ &lt;50 no recomendado
 </footer>
@@ -629,7 +634,7 @@ def main(argv: list[str]) -> int:
 
     detail_spots = pick_detail_spots(scored, spots_by_slug, max_n=args.max_detail)
 
-    generated_at = dt.datetime.now().strftime("%Y-%m-%d %H:%M %Z").strip()
+    generated_at = dt.datetime.now(UY_TZ).strftime("%Y-%m-%d %H:%M")
     html_out = render_html(scored, normalized, spots_by_slug,
                             detail_spots, generated_at, args.days)
 
