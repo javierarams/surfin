@@ -1,0 +1,1059 @@
+[
+  {
+    "slug": "playa-pocitos",
+    "name": "Playa Pocitos",
+    "region": "Montevideo",
+    "tipo_ola": "Beach Brake",
+    "tamano": "0.5 mtr.",
+    "fondo": "Arena",
+    "crowd": "Bajo",
+    "dificultad": "Baja",
+    "viento_optimo": [
+      "O",
+      "SO",
+      "N",
+      "NO"
+    ],
+    "swell_optimo": [
+      "SSE",
+      "E",
+      "ENE"
+    ],
+    "windguru_id": "34552",
+    "windguru_url": "https://www.windguru.cz/34552",
+    "valoracion": 1,
+    "notas": "Olas pocas veces al año. Período >12 seg. o viento pampero (SO). Agua marrón.",
+    "zona_station": "34552",
+    "zona_station_name": "Playa Pocitos",
+    "zona_station_url": "https://www.windguru.cz/34552"
+  },
+  {
+    "slug": "playa-buceo",
+    "name": "Playa Buceo",
+    "region": "Montevideo",
+    "tipo_ola": "Beach Brake",
+    "tamano": "0.5 mtr.",
+    "fondo": "Arena",
+    "crowd": "Bajo",
+    "dificultad": "Baja",
+    "viento_optimo": [
+      "O",
+      "SO",
+      "N",
+      "NO"
+    ],
+    "swell_optimo": [
+      "SSE",
+      "E"
+    ],
+    "windguru_id": "58328",
+    "windguru_url": "https://www.windguru.cz/58328",
+    "valoracion": 1,
+    "notas": "Olas pocas veces al año. Período >12 seg. o viento pampero.",
+    "zona_station": "58328",
+    "zona_station_name": "Playa Buceo",
+    "zona_station_url": "https://www.windguru.cz/58328"
+  },
+  {
+    "slug": "la-pantalla",
+    "name": "La Pantalla",
+    "region": "Montevideo",
+    "tipo_ola": "Beach Brake",
+    "tamano": "0.5 mtr.",
+    "fondo": "Arena",
+    "crowd": "Bajo",
+    "dificultad": "Baja",
+    "viento_optimo": [
+      "O",
+      "SO",
+      "N",
+      "NO"
+    ],
+    "swell_optimo": [
+      "SSE",
+      "E"
+    ],
+    "windguru_id": "49322",
+    "windguru_url": "https://www.windguru.cz/49322",
+    "valoracion": 2,
+    "notas": "Segunda mejor playa de Montevideo. Período >12 seg. o viento pampero.",
+    "zona_station": "49322",
+    "zona_station_name": "La Pantalla",
+    "zona_station_url": "https://www.windguru.cz/49322"
+  },
+  {
+    "slug": "playa-honda",
+    "name": "Playa Honda",
+    "region": "Montevideo",
+    "tipo_ola": "Beach Brake",
+    "tamano": "0.5 mtr.",
+    "fondo": "Arena",
+    "crowd": "Bajo",
+    "dificultad": "Baja",
+    "viento_optimo": [
+      "O",
+      "SO",
+      "N",
+      "NO"
+    ],
+    "swell_optimo": [
+      "SSE",
+      "E"
+    ],
+    "windguru_id": "1911",
+    "windguru_url": "https://www.windguru.cz/1911",
+    "valoracion": 2,
+    "notas": "Mejor playa de Montevideo. Período >12 seg. o viento pampero.",
+    "zona_station": "1911",
+    "zona_station_name": "Playa Honda",
+    "zona_station_url": "https://www.windguru.cz/1911"
+  },
+  {
+    "slug": "playa-carrasco",
+    "name": "Playa Carrasco",
+    "region": "Montevideo",
+    "tipo_ola": "Beach Brake",
+    "tamano": "0.5 mtr.",
+    "fondo": "Arena",
+    "crowd": "Bajo",
+    "dificultad": "Baja",
+    "viento_optimo": [
+      "O",
+      "SO",
+      "N",
+      "NO"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE"
+    ],
+    "windguru_id": "37673",
+    "windguru_url": "https://www.windguru.cz/37673",
+    "valoracion": 3,
+    "notas": "Ideal para principiantes y longboard. Período >12 seg.",
+    "zona_station": "37673",
+    "zona_station_name": "Playa Carrasco",
+    "zona_station_url": "https://www.windguru.cz/37673"
+  },
+  {
+    "slug": "santa-lucia-del-este",
+    "name": "Santa Lucia del Este",
+    "region": "Costa de Oro",
+    "tipo_ola": "Izquierda",
+    "tamano": "1 mtr.",
+    "fondo": "Arena",
+    "crowd": "Alto",
+    "dificultad": "Baja",
+    "viento_optimo": [
+      "N",
+      "NE"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE"
+    ],
+    "windguru_id": "119294",
+    "windguru_url": "https://www.windguru.cz/119294",
+    "valoracion": 3,
+    "notas": "Muy buena para longboard. Recorridos de 300m+. Izquierdas largas y fáciles.",
+    "zona_station": "119294",
+    "zona_station_name": "Santa Lucia del Este",
+    "zona_station_url": "https://www.windguru.cz/119294"
+  },
+  {
+    "slug": "arroyo-pando",
+    "name": "Arroyo Pando",
+    "region": "Costa de Oro",
+    "tipo_ola": "Beach Brake",
+    "tamano": "0.5 mtr.",
+    "fondo": "Arena",
+    "crowd": "Bajo",
+    "dificultad": "Baja",
+    "viento_optimo": [
+      "NO",
+      "NE"
+    ],
+    "swell_optimo": [
+      "S",
+      "SSE"
+    ],
+    "windguru_id": "34546",
+    "windguru_url": "https://www.windguru.cz/34546",
+    "valoracion": 2,
+    "notas": "Olas pocas veces al año. Período >12 seg. o viento pampero SO.",
+    "zona_station": "313168",
+    "zona_station_name": "Arroyo Pando (referencia)",
+    "zona_station_url": "https://www.windguru.cz/313168"
+  },
+  {
+    "slug": "atlantida",
+    "name": "Atlántida",
+    "region": "Costa de Oro",
+    "tipo_ola": "Beach Brake",
+    "tamano": "0.5-1.5 mtr.",
+    "fondo": "Arena",
+    "crowd": "Alto (ene/feb)",
+    "dificultad": "Baja",
+    "viento_optimo": [
+      "SE",
+      "N",
+      "NE"
+    ],
+    "swell_optimo": [
+      "E",
+      "ESE"
+    ],
+    "windguru_id": "259217",
+    "windguru_url": "https://www.windguru.cz/259217",
+    "valoracion": 2,
+    "notas": "Orientación S. También funciona con viento SW (picado). Muelle Piedra Lisa para derechas largas.",
+    "zona_station": "259217",
+    "zona_station_name": "Atlántida",
+    "zona_station_url": "https://www.windguru.cz/259217"
+  },
+  {
+    "slug": "parque-del-plata",
+    "name": "Parque del Plata",
+    "region": "Costa de Oro",
+    "tipo_ola": "Beach Brake",
+    "tamano": "0.5 mtr.",
+    "fondo": "Arena",
+    "crowd": "Bajo",
+    "dificultad": "Baja",
+    "viento_optimo": [
+      "O",
+      "SO",
+      "N",
+      "NO"
+    ],
+    "swell_optimo": [
+      "SSE",
+      "E"
+    ],
+    "windguru_id": "212902",
+    "windguru_url": "https://www.windguru.cz/212902",
+    "valoracion": 2,
+    "notas": "Desembocadura Arroyo Solís Chico. Necesita bancos bien formados.",
+    "zona_station": "212902",
+    "zona_station_name": "Parque del Plata",
+    "zona_station_url": "https://www.windguru.cz/212902"
+  },
+  {
+    "slug": "cuchilla-alta",
+    "name": "Cuchilla Alta",
+    "region": "Costa de Oro",
+    "tipo_ola": "Izquierdas",
+    "tamano": "0.5-1 mtr.",
+    "fondo": "Arena/Rocas",
+    "crowd": "Alto",
+    "dificultad": "Baja",
+    "viento_optimo": [
+      "N",
+      "NE"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE"
+    ],
+    "windguru_id": "422330",
+    "windguru_url": "https://www.windguru.cz/422330",
+    "valoracion": 3,
+    "notas": "Izquierda clásica con muelle. Recorrido ~200m. Drop rápido y vertical.",
+    "zona_station": "422330",
+    "zona_station_name": "Cuchilla Alta",
+    "zona_station_url": "https://www.windguru.cz/422330"
+  },
+  {
+    "slug": "balneario-argentino",
+    "name": "Balneario Argentino",
+    "region": "Costa de Oro",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "1 mtr.",
+    "fondo": "Arena/Canto Rodado",
+    "crowd": "Medio/Alto",
+    "dificultad": "Baja/Media",
+    "viento_optimo": [
+      "N",
+      "NE"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE"
+    ],
+    "windguru_id": "422330",
+    "windguru_url": "https://www.windguru.cz/422330",
+    "valoracion": 3,
+    "notas": "Una de las mejores opciones cerca de Montevideo. Puede dar tubos hasta 1m.",
+    "zona_station": "422330",
+    "zona_station_name": "Cuchilla Alta/B.Argentino",
+    "zona_station_url": "https://www.windguru.cz/422330"
+  },
+  {
+    "slug": "jaureguiberry",
+    "name": "Jaureguiberry",
+    "region": "Costa de Oro",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "1 mtr.",
+    "fondo": "Arena/Canto Rodado",
+    "crowd": "Bajo",
+    "dificultad": "Baja",
+    "viento_optimo": [
+      "N",
+      "NE"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE",
+      "SW"
+    ],
+    "windguru_id": "32742",
+    "windguru_url": "https://www.windguru.cz/32742",
+    "valoracion": 3,
+    "notas": "Desembocadura Solís Grande. Necesita swell potente y alto período. Viento débil es clave.",
+    "zona_station": "32742",
+    "zona_station_name": "Jaureguiberry",
+    "zona_station_url": "https://www.windguru.cz/32742"
+  },
+  {
+    "slug": "solis",
+    "name": "Solís",
+    "region": "Maldonado",
+    "tipo_ola": "Derecha/Izquierda",
+    "tamano": "1 mtr.",
+    "fondo": "Arena",
+    "crowd": "Bajo",
+    "dificultad": "Baja",
+    "viento_optimo": [
+      "N",
+      "NE"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE"
+    ],
+    "windguru_id": "32742",
+    "windguru_url": "https://www.windguru.cz/32742",
+    "valoracion": 2,
+    "notas": "Desembocadura Solís. Necesita swell potente y alto período. Buena para longboard.",
+    "zona_station": "32742",
+    "zona_station_name": "Solís",
+    "zona_station_url": "https://www.windguru.cz/32742"
+  },
+  {
+    "slug": "san-francisco-piriapolis",
+    "name": "San Francisco, Piriápolis",
+    "region": "Maldonado",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "hasta 1.5 mtr.",
+    "fondo": "Arena",
+    "crowd": "Medio",
+    "dificultad": "Media",
+    "viento_optimo": [
+      "E",
+      "ENE",
+      "N"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE",
+      "E"
+    ],
+    "windguru_id": "116713",
+    "windguru_url": "https://www.windguru.cz/116713",
+    "valoracion": 4,
+    "notas": "El Pewe. Protegida del E. Funciona cuando otros spots están picados.",
+    "zona_station": "116713",
+    "zona_station_name": "Piriápolis",
+    "zona_station_url": "https://www.windguru.cz/116713"
+  },
+  {
+    "slug": "faroleta-piriapolis",
+    "name": "Faroleta, Piriápolis",
+    "region": "Maldonado",
+    "tipo_ola": "Izquierda",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Rocas",
+    "crowd": "Bajo",
+    "dificultad": "Alta",
+    "viento_optimo": [
+      "N",
+      "NE",
+      "E"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE"
+    ],
+    "windguru_id": "116713",
+    "windguru_url": "https://www.windguru.cz/116713",
+    "valoracion": 3,
+    "notas": "Punta de Rocas. Izquierdas 100m. Peligroso con marea baja. Swell SE potente.",
+    "zona_station": "116713",
+    "zona_station_name": "Piriápolis",
+    "zona_station_url": "https://www.windguru.cz/116713"
+  },
+  {
+    "slug": "corralitos-piriapolis",
+    "name": "Corralitos, Piriápolis",
+    "region": "Maldonado",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Arena",
+    "crowd": "Alto",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "N",
+      "NO"
+    ],
+    "swell_optimo": [
+      "E",
+      "ESE"
+    ],
+    "windguru_id": "37672",
+    "windguru_url": "https://www.windguru.cz/37672",
+    "valoracion": 3,
+    "notas": "Muy sensible al viento. Puede ser tubular. Varios picos dispersan el crowd.",
+    "zona_station": "37672",
+    "zona_station_name": "Corralitos",
+    "zona_station_url": "https://www.windguru.cz/37672"
+  },
+  {
+    "slug": "el-chileno",
+    "name": "El Chileno",
+    "region": "Maldonado",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "hasta 1 mtr.",
+    "fondo": "Arena/Rocas",
+    "crowd": "Medio",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "E",
+      "ENE",
+      "N"
+    ],
+    "swell_optimo": [
+      "S",
+      "SO"
+    ],
+    "windguru_id": "366061",
+    "windguru_url": "https://www.windguru.cz/366061",
+    "valoracion": 3,
+    "notas": "Punta de rocas con izquierda. También rompe sobre playa según dirección swell.",
+    "zona_station": "366061",
+    "zona_station_name": "El Chileno",
+    "zona_station_url": "https://www.windguru.cz/366061"
+  },
+  {
+    "slug": "la-virgen",
+    "name": "La Virgen",
+    "region": "Maldonado",
+    "tipo_ola": "Izquierda",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Rocas",
+    "crowd": "Medio",
+    "dificultad": "Alta",
+    "viento_optimo": [
+      "N",
+      "NO"
+    ],
+    "swell_optimo": [
+      "E",
+      "ESE"
+    ],
+    "windguru_id": "37691",
+    "windguru_url": "https://www.windguru.cz/37691",
+    "valoracion": 4,
+    "notas": "Difícil acceso por rocas. Solo para expertos. Peligroso >1.5m.",
+    "zona_station": "37691",
+    "zona_station_name": "La Virgen/El Emir",
+    "zona_station_url": "https://www.windguru.cz/37691"
+  },
+  {
+    "slug": "el-emir",
+    "name": "El Emir",
+    "region": "Maldonado",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Arena",
+    "crowd": "Alto",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "S",
+      "SO",
+      "O",
+      "ONO"
+    ],
+    "swell_optimo": [
+      "E",
+      "ESE"
+    ],
+    "windguru_id": "37691",
+    "windguru_url": "https://www.windguru.cz/37691",
+    "valoracion": 5,
+    "notas": "Playa más concurrida de PDE. El Martillo (derecha) sobre piedras. Protegida del S-SW.",
+    "zona_station": "37691",
+    "zona_station_name": "El Emir",
+    "zona_station_url": "https://www.windguru.cz/37691"
+  },
+  {
+    "slug": "los-dedos",
+    "name": "Los Dedos",
+    "region": "Maldonado",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Arena",
+    "crowd": "Alto",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "S",
+      "SO",
+      "O",
+      "ONO"
+    ],
+    "swell_optimo": [
+      "E",
+      "ESE"
+    ],
+    "windguru_id": "405894",
+    "windguru_url": "https://www.windguru.cz/405894",
+    "valoracion": 4,
+    "notas": "Icónica playa de PDE. Protegida del S-SW. Derecha sobre piedras.",
+    "zona_station": "405894",
+    "zona_station_name": "Los Dedos/La Olla",
+    "zona_station_url": "https://www.windguru.cz/405894"
+  },
+  {
+    "slug": "la-olla",
+    "name": "La Olla",
+    "region": "Maldonado",
+    "tipo_ola": "Izquierda",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Arena",
+    "crowd": "Alto",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "O",
+      "ONO",
+      "NE"
+    ],
+    "swell_optimo": [
+      "E",
+      "ESE"
+    ],
+    "windguru_id": "405894",
+    "windguru_url": "https://www.windguru.cz/405894",
+    "valoracion": 5,
+    "notas": "Izquierda legendaria de PDE. Comienza sobre rocas, recorrido sobre arena. Corriente fuerte con >1m.",
+    "zona_station": "405894",
+    "zona_station_name": "La Olla",
+    "zona_station_url": "https://www.windguru.cz/405894"
+  },
+  {
+    "slug": "la-plage",
+    "name": "La Plage",
+    "region": "Maldonado",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Arena",
+    "crowd": "Alto (todo el año)",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "N",
+      "ONO",
+      "ENE"
+    ],
+    "swell_optimo": [
+      "E",
+      "ESE",
+      "SE"
+    ],
+    "windguru_id": "405896",
+    "windguru_url": "https://www.windguru.cz/405896",
+    "valoracion": 5,
+    "notas": "Frente al ex Hotel San Rafael. Beach brake tubular y rápido. Corrientes y pozos.",
+    "zona_station": "405896",
+    "zona_station_name": "La Plage",
+    "zona_station_url": "https://www.windguru.cz/405896"
+  },
+  {
+    "slug": "boca-de-la-barra",
+    "name": "Boca de la Barra",
+    "region": "Maldonado",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Arena",
+    "crowd": "Alto",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "N",
+      "NO",
+      "NE"
+    ],
+    "swell_optimo": [
+      "S",
+      "ESE",
+      "E"
+    ],
+    "windguru_id": "333460",
+    "windguru_url": "https://www.windguru.cz/333460",
+    "valoracion": 5,
+    "notas": "Desembocadura arroyo Maldonado. Uno de los spots preferidos. Olas largas y perfectas.",
+    "zona_station": "333460",
+    "zona_station_name": "Boca de la Barra",
+    "zona_station_url": "https://www.windguru.cz/333460"
+  },
+  {
+    "slug": "posta-del-cangrejo",
+    "name": "Posta del Cangrejo",
+    "region": "Maldonado",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "2 mtr. o más",
+    "fondo": "Roca/Arena",
+    "crowd": "Alto (enero)",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "N",
+      "ENE",
+      "E"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE",
+      "ESE"
+    ],
+    "windguru_id": "333463",
+    "windguru_url": "https://www.windguru.cz/333463",
+    "valoracion": 5,
+    "notas": "Izquierda clásica sobre roca, ~150m recorrido sobre arena. Derecha también divertida.",
+    "zona_station": "333463",
+    "zona_station_name": "Posta del Cangrejo",
+    "zona_station_url": "https://www.windguru.cz/333463"
+  },
+  {
+    "slug": "montoya",
+    "name": "Montoya",
+    "region": "Maldonado",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Arena",
+    "crowd": "Alto",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "N",
+      "NE",
+      "NO"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE"
+    ],
+    "windguru_id": "405911",
+    "windguru_url": "https://www.windguru.cz/405911",
+    "valoracion": 5,
+    "notas": "Beach brake clásico PDE. Izquierdas y derechas con buena forma. Puntas de rocas en ambos extremos.",
+    "zona_station": "405911",
+    "zona_station_name": "Montoya",
+    "zona_station_url": "https://www.windguru.cz/405911"
+  },
+  {
+    "slug": "bikini",
+    "name": "Bikini",
+    "region": "Maldonado",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Roca/Arena",
+    "crowd": "Alto (verano)",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "S",
+      "SO",
+      "O",
+      "ONO"
+    ],
+    "swell_optimo": [
+      "SE",
+      "ESE"
+    ],
+    "windguru_id": "120882",
+    "windguru_url": "https://www.windguru.cz/120882",
+    "valoracion": 5,
+    "notas": "Top de PDE. Izquierda tubular sobre piedras. Drop duro, luego ola amigable.",
+    "zona_station": "120882",
+    "zona_station_name": "Bikini",
+    "zona_station_url": "https://www.windguru.cz/120882"
+  },
+  {
+    "slug": "jose-ignacio",
+    "name": "José Ignacio",
+    "region": "Maldonado",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Arena/Roca",
+    "crowd": "Alto",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "S",
+      "SO",
+      "O",
+      "ONO"
+    ],
+    "swell_optimo": [
+      "E",
+      "ESE"
+    ],
+    "windguru_id": "112369",
+    "windguru_url": "https://www.windguru.cz/112369",
+    "valoracion": 4,
+    "notas": "Top del verano uruguayo. Derechas frente al faro. Soporta bien el pampero SO.",
+    "zona_station": "112369",
+    "zona_station_name": "José Ignacio",
+    "zona_station_url": "https://www.windguru.cz/112369"
+  },
+  {
+    "slug": "corumba",
+    "name": "Corumbá",
+    "region": "Rocha",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Arena",
+    "crowd": "Alto (ene/feb)",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "N",
+      "NE",
+      "ENE"
+    ],
+    "swell_optimo": [
+      "S",
+      "ESE"
+    ],
+    "windguru_id": "405916",
+    "windguru_url": "https://www.windguru.cz/405916",
+    "valoracion": 5,
+    "notas": "La Paloma. Playa extensa, poco profunda. Puede ser tubular. Buena para principiantes.",
+    "zona_station": "405916",
+    "zona_station_name": "Corumbá/La Paloma",
+    "zona_station_url": "https://www.windguru.cz/405916"
+  },
+  {
+    "slug": "los-botes",
+    "name": "Playa Los Botes",
+    "region": "Rocha",
+    "tipo_ola": "Izquierda",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Roca/Arena",
+    "crowd": "Alto (ene/feb)",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "N",
+      "ENE",
+      "E"
+    ],
+    "swell_optimo": [
+      "S",
+      "SSE",
+      "ESE"
+    ],
+    "windguru_id": "37673",
+    "windguru_url": "https://www.windguru.cz/37673",
+    "valoracion": 5,
+    "notas": "La Paloma. Izquierda de gran calidad. Drop sobre rocas, recorrido ~150m. Soporta bien E-ENE.",
+    "zona_station": "37673",
+    "zona_station_name": "Los Botes/La Paloma",
+    "zona_station_url": "https://www.windguru.cz/37673"
+  },
+  {
+    "slug": "zanja-honda",
+    "name": "Playa Zanja Honda",
+    "region": "Rocha",
+    "tipo_ola": "Izquierda",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Roca/Arena",
+    "crowd": "Alto (ene/feb)",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "N",
+      "ENE",
+      "E"
+    ],
+    "swell_optimo": [
+      "S",
+      "SSE",
+      "ESE"
+    ],
+    "windguru_id": "333480",
+    "windguru_url": "https://www.windguru.cz/333480",
+    "valoracion": 5,
+    "notas": "Una de las mejores izquierdas de Uruguay. Reef a 150m. Recorrido >100m. Peligroso marea baja.",
+    "zona_station": "333480",
+    "zona_station_name": "Zanja Honda",
+    "zona_station_url": "https://www.windguru.cz/333480"
+  },
+  {
+    "slug": "la-balconada",
+    "name": "La Balconada",
+    "region": "Rocha",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "hasta 2 mtr.",
+    "fondo": "Arena",
+    "crowd": "Alto",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "E"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE"
+    ],
+    "windguru_id": "333481",
+    "windguru_url": "https://www.windguru.cz/333481",
+    "valoracion": 4,
+    "notas": "La Paloma. Funciona bien con viento E y swell S-SE potente y alto período.",
+    "zona_station": "333481",
+    "zona_station_name": "La Balconada",
+    "zona_station_url": "https://www.windguru.cz/333481"
+  },
+  {
+    "slug": "la-aguada",
+    "name": "La Aguada",
+    "region": "Rocha",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "2 mtr. o más",
+    "fondo": "Arena",
+    "crowd": "Alto",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "SO",
+      "O",
+      "ONO"
+    ],
+    "swell_optimo": [
+      "E",
+      "ESE"
+    ],
+    "windguru_id": "119340",
+    "windguru_url": "https://www.windguru.cz/119340",
+    "valoracion": 3,
+    "notas": "La Paloma. Varios bancos de arena. Puede ser tubular. Buena para principiantes.",
+    "zona_station": "119340",
+    "zona_station_name": "La Aguada",
+    "zona_station_url": "https://www.windguru.cz/119340"
+  },
+  {
+    "slug": "playa-del-barco",
+    "name": "Playa del Barco",
+    "region": "Rocha",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "2 mtr. o más",
+    "fondo": "Roca/Arena",
+    "crowd": "Alto (ene/feb/mar)",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "NO",
+      "N",
+      "NE"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE",
+      "ESE"
+    ],
+    "windguru_id": "405921",
+    "windguru_url": "https://www.windguru.cz/405921",
+    "valoracion": 3,
+    "notas": "La Pedrera. El Trueno es una derecha top de Uruguay. Izquierdas sobre rocas también.",
+    "zona_station": "405921",
+    "zona_station_name": "La Pedrera",
+    "zona_station_url": "https://www.windguru.cz/405921"
+  },
+  {
+    "slug": "el-desplayado",
+    "name": "El Desplayado",
+    "region": "Rocha",
+    "tipo_ola": "Derecha",
+    "tamano": "2 mtr. o más",
+    "fondo": "Roca/Arena",
+    "crowd": "Alto (verano)",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "N",
+      "NO"
+    ],
+    "swell_optimo": [
+      "E",
+      "SE"
+    ],
+    "windguru_id": "119342",
+    "windguru_url": "https://www.windguru.cz/119342",
+    "valoracion": 5,
+    "notas": "La Pedrera. Una de las tres mejores derechas de Uruguay. Tubular sobre roca, luego arena.",
+    "zona_station": "119342",
+    "zona_station_name": "El Desplayado",
+    "zona_station_url": "https://www.windguru.cz/119342"
+  },
+  {
+    "slug": "playa-sur-cabo-polonio",
+    "name": "Playa Sur, Cabo Polonio",
+    "region": "Rocha",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "2 mtr. o más",
+    "fondo": "Arena",
+    "crowd": "Medio (ene/feb)",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "E",
+      "ENE"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE"
+    ],
+    "windguru_id": "50158",
+    "windguru_url": "https://www.windguru.cz/50158",
+    "valoracion": 3,
+    "notas": "Cabo Polonio. Parque nacional. Sin electricidad. Solo en temporada alta.",
+    "zona_station": "50158",
+    "zona_station_name": "Cabo Polonio",
+    "zona_station_url": "https://www.windguru.cz/50158"
+  },
+  {
+    "slug": "la-viuda-pdd",
+    "name": "La Viuda PDD",
+    "region": "Rocha",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "0.5-2 mtr.",
+    "fondo": "Piedra/Arena",
+    "crowd": "Alto (ene/feb)",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "NE",
+      "N",
+      "NO",
+      "O"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE",
+      "E",
+      "NE"
+    ],
+    "windguru_id": "467316",
+    "windguru_url": "https://www.windguru.cz/467316",
+    "valoracion": 4,
+    "notas": "Punta del Diablo. Orientación S-SE. Más tubular que la bahía. Olas todo el año.",
+    "zona_station": "467316",
+    "zona_station_name": "La Viuda PDD",
+    "zona_station_url": "https://www.windguru.cz/467316"
+  },
+  {
+    "slug": "bahia-punta-del-diablo",
+    "name": "Bahía Punta del Diablo",
+    "region": "Rocha",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "0.5-2 mtr.",
+    "fondo": "Arena",
+    "crowd": "Alto (enero)",
+    "dificultad": "Baja/Media",
+    "viento_optimo": [
+      "SO",
+      "S",
+      "SE",
+      "NO",
+      "O"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE",
+      "E",
+      "ENE"
+    ],
+    "windguru_id": "172706",
+    "windguru_url": "https://www.windguru.cz/172706",
+    "valoracion": 4,
+    "notas": "Punta del Diablo. Familiar y tranquila. Fácil y divertida. Olas todo el año.",
+    "zona_station": "172706",
+    "zona_station_name": "Punta del Diablo",
+    "zona_station_url": "https://www.windguru.cz/172706"
+  },
+  {
+    "slug": "el-rivero-pdd",
+    "name": "El Rivero PDD",
+    "region": "Rocha",
+    "tipo_ola": "Derecha/Izquierda",
+    "tamano": "0.5-2 mtr.",
+    "fondo": "Arena",
+    "crowd": "Alto (verano)",
+    "dificultad": "Baja/Media",
+    "viento_optimo": [
+      "S",
+      "SW",
+      "W",
+      "NW",
+      "N"
+    ],
+    "swell_optimo": [
+      "E",
+      "ESE"
+    ],
+    "windguru_id": "172706",
+    "windguru_url": "https://www.windguru.cz/172706",
+    "valoracion": 4,
+    "notas": "Punta del Diablo. Orientación E. Fácil, apta para todo nivel. Olas todo el año.",
+    "zona_station": "172706",
+    "zona_station_name": "Punta del Diablo",
+    "zona_station_url": "https://www.windguru.cz/172706"
+  },
+  {
+    "slug": "pesqueros-sta-teresa",
+    "name": "Pesqueros, Sta. Teresa",
+    "region": "Rocha",
+    "tipo_ola": "Izquierda/Derecha",
+    "tamano": "2 mtr. o más",
+    "fondo": "Arena",
+    "crowd": "Medio (enero)",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "N",
+      "NO"
+    ],
+    "swell_optimo": [
+      "E",
+      "ENE",
+      "NE",
+      "S",
+      "SE"
+    ],
+    "windguru_id": "37673",
+    "windguru_url": "https://www.windguru.cz/37673",
+    "valoracion": 5,
+    "notas": "Parque Santa Teresa. Izquierdas desde el point, primera sección tubular. Una de las mejores del parque.",
+    "zona_station": "37673",
+    "zona_station_name": "Pesqueros/Sta.Teresa",
+    "zona_station_url": "https://www.windguru.cz/37673"
+  },
+  {
+    "slug": "la-moza-sta-teresa",
+    "name": "La Moza, Sta. Teresa",
+    "region": "Rocha",
+    "tipo_ola": "Derecha",
+    "tamano": "0.5-2.5 mtr.",
+    "fondo": "Roca/Arena",
+    "crowd": "Alto (ene/feb)",
+    "dificultad": "Media/Alta",
+    "viento_optimo": [
+      "O",
+      "NO"
+    ],
+    "swell_optimo": [
+      "S",
+      "SE"
+    ],
+    "windguru_id": "93781",
+    "windguru_url": "https://www.windguru.cz/93781",
+    "valoracion": 5,
+    "notas": "Una de las tres mejores derechas de Uruguay. Roca luego arena. Mejores meses: sep-nov, mar-may.",
+    "zona_station": "93781",
+    "zona_station_name": "La Moza/Sta.Teresa",
+    "zona_station_url": "https://www.windguru.cz/93781"
+  }
+]
