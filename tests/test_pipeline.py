@@ -139,6 +139,8 @@ class EndToEndTest(unittest.TestCase):
                       html)
         self.assertIn("sin oleaje en Windguru", html)
         self.assertIn("Windguru no publica oleaje para esta estación", html)
+        self.assertRegex(html, r"Generado: \d{4}-\d{2}-\d{2} \d{2}:\d{2} \(hora de Uruguay\)")
+        self.assertIn('Fuente: <a href="https://www.windguru.cz"', html)
 
 
 class FormatTest(unittest.TestCase):
