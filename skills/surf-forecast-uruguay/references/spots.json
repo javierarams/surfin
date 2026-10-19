@@ -73,13 +73,13 @@
       "SSE",
       "E"
     ],
-    "windguru_id": "49322",
-    "windguru_url": "https://www.windguru.cz/49322",
+    "windguru_id": "1911",
+    "windguru_url": "https://www.windguru.cz/1911",
     "valoracion": 2,
     "notas": "Segunda mejor playa de Montevideo. Período >12 seg. o viento pampero.",
-    "zona_station": "49322",
+    "zona_station": "1911",
     "zona_station_name": "La Pantalla",
-    "zona_station_url": "https://www.windguru.cz/49322"
+    "zona_station_url": "https://www.windguru.cz/1911"
   },
   {
     "slug": "playa-honda",
@@ -127,13 +127,13 @@
       "S",
       "SE"
     ],
-    "windguru_id": "37673",
-    "windguru_url": "https://www.windguru.cz/37673",
+    "windguru_id": "1911",
+    "windguru_url": "https://www.windguru.cz/1911",
     "valoracion": 3,
     "notas": "Ideal para principiantes y longboard. Período >12 seg.",
-    "zona_station": "37673",
+    "zona_station": "1911",
     "zona_station_name": "Playa Carrasco",
-    "zona_station_url": "https://www.windguru.cz/37673"
+    "zona_station_url": "https://www.windguru.cz/1911"
   },
   {
     "slug": "santa-lucia-del-este",
@@ -177,8 +177,8 @@
       "S",
       "SSE"
     ],
-    "windguru_id": "34546",
-    "windguru_url": "https://www.windguru.cz/34546",
+    "windguru_id": "313168",
+    "windguru_url": "https://www.windguru.cz/313168",
     "valoracion": 2,
     "notas": "Olas pocas veces al año. Período >12 seg. o viento pampero SO.",
     "zona_station": "313168",
@@ -1023,13 +1023,13 @@
       "S",
       "SE"
     ],
-    "windguru_id": "37673",
-    "windguru_url": "https://www.windguru.cz/37673",
+    "windguru_id": "93781",
+    "windguru_url": "https://www.windguru.cz/93781",
     "valoracion": 5,
     "notas": "Parque Santa Teresa. Izquierdas desde el point, primera sección tubular. Una de las mejores del parque.",
-    "zona_station": "37673",
+    "zona_station": "93781",
     "zona_station_name": "Pesqueros/Sta.Teresa",
-    "zona_station_url": "https://www.windguru.cz/37673"
+    "zona_station_url": "https://www.windguru.cz/93781"
   },
   {
     "slug": "la-moza-sta-teresa",
