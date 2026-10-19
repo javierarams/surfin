@@ -1,32 +1,37 @@
 #!/usr/bin/env python3
-"""parse_windguru.py — Normalize raw Windguru iapi.php JSON into per-day buckets.
+"""parse_windguru.py - Normalize the Windguru forecasts read by fetch_windguru.py into per-day buckets.
 
 Usage:
-    python3 parse_windguru.py <raw.json>            # raw can be either:
-                                                    #   - fetch_windguru.sh output ({stations:{...}})
-                                                    #   - a single station response
-    python3 parse_windguru.py --stdin               # read JSON from stdin
+    python3 parse_windguru.py raw.json
     python3 parse_windguru.py raw.json --tz America/Montevideo
-    python3 parse_windguru.py wind.json --merge wave.json    # merge wind model + wave model
-                                                             # (e.g. GFS id=3 + WaveWatch id=83)
-                                                             # series aligned by hour offset per id
+
+Input: fetch_windguru.py output. Each station names its "wind_model" and "wave_model" (null when
+Windguru has no wave forecast for that spot; the swell fields are then null).
+
+Each hour of the wind model is paired with the wave-model hour at the same UTC time (the two
+runs may start at different init times). Field mapping from Windguru's variables:
+    wind_kt WINDSPD · gust_kt GUST · wind_dir WINDDIR · temp_c TMPE (TMP if absent)
+    cloud_pct TCDC · rain_mm APCP1 · slp_hpa SLP · rh_pct RH
+    swell_m HTSGW · swell_period_s PERPW · swell_dir DIRPW   (the site's "Wave" rows)
+Directions are degrees the wind/waves come FROM.
 
 Output (stdout): JSON of the form
     {
       "stations": {
         "<id_spot>": {
-          "id_spot": "313168",
-          "lat": -34.8, "lon": -55.87, "model": "gfs",
-          "initdate_utc": "2026-05-22 12:00:00",
+          "id_spot": "313168", "spotname": "Desemb. Arroyo Pando (Canelones)",
+          "lat": -34.8, "lon": -55.87,
+          "model_name": "GFS 13 km", "wave_model_name": "GFS-Wave 25 km",   # null: no waves
+          "initdate_utc": "2026-10-19 06:00:00", "wave_initdate_utc": "2026-10-19 06:00:00",
           "days": [
             {
-              "date": "2026-05-22",
-              "weekday": "viernes",
+              "date": "2026-10-19",
+              "weekday": "monday",
               "hours": [
-                {"local": "09:00", "h_offset": 0,
-                 "wind_kt": 3.9, "gust_kt": 5.7, "wind_dir": 165, "wind_card": "S",
-                 "temp_c": 11.2, "cloud_pct": null, "rain_mm": null, "slp_hpa": 1030.7,
-                 "swell_m": null, "swell_period_s": null, "swell_dir": null, "swell_card": null},
+                {"local": "09:00", "h_offset": 6,
+                 "wind_kt": 3.9, "gust_kt": 5.7, "wind_dir": 165, "wind_card": "SSE",
+                 "temp_c": 11.2, "cloud_pct": 12, "rain_mm": 0, "slp_hpa": 1030.7, "rh_pct": 80,
+                 "swell_m": 0.9, "swell_period_s": 10.2, "swell_dir": 126, "swell_card": "SE"},
                 ...
               ],
               "stats": {
@@ -34,7 +39,8 @@ Output (stdout): JSON of the form
                 "wind_dir_dom": 35, "wind_card_dom": "NE",
                 "temp_min": 8.0, "temp_max": 14.1,
                 "rain_total_mm": 0.1, "cloud_avg_pct": 56,
-                "swell_m_max": null, "swell_period_s_max": null, "swell_card_dom": null
+                "swell_m_max": 1.1, "swell_period_s_max": 10.4,
+                "swell_dir_dom": 128, "swell_card_dom": "SE"
               }
             },
             ...
@@ -42,6 +48,8 @@ Output (stdout): JSON of the form
         }
       }
     }
+
+Exits with status 1, naming the station, if a station lacks the forecast it names.
 """
 
 import argparse
@@ -61,6 +69,10 @@ CARDINALS = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
              "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
 
 
+class StationDataError(Exception):
+    pass
+
+
 def deg_to_cardinal(deg: float | None) -> str | None:
     if deg is None:
         return None
@@ -78,9 +90,11 @@ def circular_mean(degs: list[float]) -> float | None:
     return m + 360 if m < 0 else m
 
 
-def parse_initdate(s: str) -> dt.datetime:
-    """Windguru initdate is 'YYYY-MM-DD HH:MM:SS' UTC."""
-    return dt.datetime.strptime(s, "%Y-%m-%d %H:%M:%S").replace(tzinfo=dt.timezone.utc)
+def init_time(fcst: dict) -> dt.datetime:
+    if fcst.get("initstamp"):
+        return dt.datetime.fromtimestamp(int(fcst["initstamp"]), tz=dt.timezone.utc)
+    return dt.datetime.strptime(fcst["initdate"], "%Y-%m-%d %H:%M:%S").replace(
+        tzinfo=dt.timezone.utc)
 
 
 def safe(arr: list[Any] | None, i: int) -> Any:
@@ -89,101 +103,50 @@ def safe(arr: list[Any] | None, i: int) -> Any:
     return arr[i]
 
 
-def merge_wave_into_wind(wind_raw: dict, wave_raw: dict) -> dict:
-    """Merge wave-model fcst arrays (SHGT/SMER/SPER) into wind-model raw.
-
-    Both inputs are expected to be in fetch_windguru.sh shape:
-        {"stations": {"<id>": <station_raw>, ...}, "errors": {...}}
-    Single-station shape is also accepted.
-
-    Series are aligned by hour offset (`fcst.hours`). The wave model usually
-    runs at a 3h step, so most 1h slots in the wind model won't have a wave
-    sample — those keep `None`. We don't interpolate; downstream code reads
-    `swell_m`/`swell_period_s`/`swell_dir` and handles None gracefully.
-    """
-
-    def to_stations(raw: dict) -> dict:
-        if isinstance(raw, dict) and "stations" in raw and isinstance(raw["stations"], dict):
-            return raw["stations"]
-        # single-station shape
-        sid = str(raw.get("id_spot", "unknown"))
-        return {sid: raw}
-
-    wind_stations = to_stations(wind_raw)
-    wave_stations = to_stations(wave_raw)
-
-    for sid, wind_station in wind_stations.items():
-        wave_station = wave_stations.get(sid)
-        if not isinstance(wave_station, dict):
-            continue
-        w_fcst = wind_station.get("fcst") or {}
-        v_fcst = wave_station.get("fcst") or {}
-        w_hours = w_fcst.get("hours") or []
-        v_hours = v_fcst.get("hours") or []
-        if not w_hours or not v_hours:
-            continue
-        # Build offset → index map for the wave series
-        wave_idx = {h: i for i, h in enumerate(v_hours)}
-        n = len(w_hours)
-        # Pre-allocate aligned arrays sized to wind series length
-        for key in ("SHGT", "SMER", "SPER"):
-            src = v_fcst.get(key) or []
-            aligned = [None] * n
-            for j, h in enumerate(w_hours):
-                k = wave_idx.get(h)
-                if k is not None and k < len(src):
-                    aligned[j] = src[k]
-            w_fcst[key] = aligned
-        wind_station["fcst"] = w_fcst
-        wind_station["_merged_wave_model"] = wave_station.get("model")
-
-    # Preserve original wrapper shape
-    if isinstance(wind_raw, dict) and "stations" in wind_raw:
-        wind_raw["stations"] = wind_stations
-        return wind_raw
-    # Single-station — return the merged one
-    return next(iter(wind_stations.values()))
+def model_fcst(station: dict, id_model: str) -> tuple[dict, dict]:
+    raw = (station.get("models") or {}).get(id_model)
+    if not raw or not (raw.get("fcst") or {}).get("hours"):
+        have = ", ".join(sorted(station.get("models") or {})) or "none"
+        raise StationDataError(f"no forecast for id_model {id_model} (have: {have})")
+    return raw, raw["fcst"]
 
 
-def normalize_station(spot_id: str, raw: dict, tz_name: str) -> dict:
-    """Normalize one station's raw Windguru response."""
-    if raw.get("_format") == "html_fallback":
-        return {"id_spot": spot_id, "_error": "html_fallback not yet parsed",
-                "_html_len": len(raw.get("html", ""))}
-
-    fcst = raw.get("fcst", {})
-    if not fcst:
-        return {"id_spot": spot_id, "_error": "no 'fcst' key in response"}
-
-    initdate_utc = parse_initdate(raw.get("initdate") or fcst.get("initdate"))
-    hours = fcst.get("hours") or fcst.get("fcst_hour") or []
+def normalize_station(spot_id: str, station: dict, tz_name: str) -> dict:
+    wind_raw, wind = model_fcst(station, str(station.get("wind_model")))
+    if station.get("wave_model"):
+        wave_raw, wave = model_fcst(station, str(station["wave_model"]))
+        wave_init = init_time(wave)
+        wave_idx = {wave_init + dt.timedelta(hours=h): i for i, h in enumerate(wave["hours"])}
+    else:
+        wave_raw, wave, wave_init, wave_idx = {}, {}, None, {}
     tz = ZoneInfo(tz_name)
 
-    # Per-hour records
+    wind_init = init_time(wind)
+
     records = []
-    for i, h_offset in enumerate(hours):
-        local = (initdate_utc + dt.timedelta(hours=h_offset)).astimezone(tz)
-        wind_dir = safe(fcst.get("WINDDIR"), i)
-        swell_dir = safe(fcst.get("SMER"), i)
+    for i, h_offset in enumerate(wind["hours"]):
+        valid_utc = wind_init + dt.timedelta(hours=h_offset)
+        j = wave_idx.get(valid_utc)
+        wind_dir = safe(wind.get("WINDDIR"), i)
+        swell_dir = safe(wave.get("DIRPW"), j) if j is not None else None
         records.append({
             "h_offset": h_offset,
-            "local_dt": local,
-            "wind_kt": safe(fcst.get("WINDSPD"), i),
-            "gust_kt": safe(fcst.get("GUST"), i),
+            "local_dt": valid_utc.astimezone(tz),
+            "wind_kt": safe(wind.get("WINDSPD"), i),
+            "gust_kt": safe(wind.get("GUST"), i),
             "wind_dir": wind_dir,
             "wind_card": deg_to_cardinal(wind_dir),
-            "temp_c": safe(fcst.get("TMPE") or fcst.get("TMP"), i),
-            "cloud_pct": safe(fcst.get("TCDC"), i),
-            "rain_mm": safe(fcst.get("APCP1"), i),
-            "slp_hpa": safe(fcst.get("SLP"), i),
-            "rh_pct": safe(fcst.get("RH"), i),
-            "swell_m": safe(fcst.get("SHGT"), i),
-            "swell_period_s": safe(fcst.get("SPER"), i),
+            "temp_c": safe(wind.get("TMPE") or wind.get("TMP"), i),
+            "cloud_pct": safe(wind.get("TCDC"), i),
+            "rain_mm": safe(wind.get("APCP1"), i),
+            "slp_hpa": safe(wind.get("SLP"), i),
+            "rh_pct": safe(wind.get("RH"), i),
+            "swell_m": safe(wave.get("HTSGW"), j) if j is not None else None,
+            "swell_period_s": safe(wave.get("PERPW"), j) if j is not None else None,
             "swell_dir": swell_dir,
             "swell_card": deg_to_cardinal(swell_dir),
         })
 
-    # Group by local date
     by_day: dict[str, list[dict]] = {}
     for r in records:
         key = r["local_dt"].strftime("%Y-%m-%d")
@@ -192,7 +155,6 @@ def normalize_station(spot_id: str, raw: dict, tz_name: str) -> dict:
     days_out = []
     for date_key in sorted(by_day):
         rows = by_day[date_key]
-        # Stats
         winds = [r["wind_kt"] for r in rows if r["wind_kt"] is not None]
         gusts = [r["gust_kt"] for r in rows if r["gust_kt"] is not None]
         dirs = [r["wind_dir"] for r in rows if r["wind_dir"] is not None]
@@ -248,64 +210,50 @@ def normalize_station(spot_id: str, raw: dict, tz_name: str) -> dict:
         })
 
     return {
-        "id_spot": str(raw.get("id_spot", spot_id)),
-        "lat": raw.get("lat"),
-        "lon": raw.get("lon"),
-        "model": raw.get("model"),
-        "model_name": (raw.get("wgmodel") or {}).get("model_name"),
-        "initdate_utc": initdate_utc.strftime("%Y-%m-%d %H:%M:%S"),
-        "sunrise": raw.get("sunrise"),
-        "sunset": raw.get("sunset"),
+        "id_spot": str(station.get("id_spot") or spot_id),
+        "spotname": station.get("spotname"),
+        "country": station.get("country"),
+        "page_url": station.get("page_url"),
+        "fetched_at": station.get("fetched_at"),
+        "lat": station.get("lat", wind_raw.get("lat")),
+        "lon": station.get("lon", wind_raw.get("lon")),
+        "model": wind_raw.get("model"),
+        "model_name": wind.get("model_name") or (wind_raw.get("wgmodel") or {}).get("model_name"),
+        "wave_model_name": wave.get("model_name") or (wave_raw.get("wgmodel") or {}).get("model_name"),
+        "initdate_utc": wind_init.strftime("%Y-%m-%d %H:%M:%S"),
+        "wave_initdate_utc": wave_init.strftime("%Y-%m-%d %H:%M:%S") if wave_init else None,
+        "sunrise": wind_raw.get("sunrise"),
+        "sunset": wind_raw.get("sunset"),
         "days": days_out,
     }
 
 
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("input", nargs="?", help="Path to raw JSON (omit if --stdin)")
-    ap.add_argument("--stdin", action="store_true", help="Read raw JSON from stdin")
+    ap.add_argument("input", help="Path to fetch_windguru.py output")
     ap.add_argument("--tz", default="America/Montevideo",
                     help="Local timezone for grouping (default: America/Montevideo)")
-    ap.add_argument("--merge", metavar="WAVE_JSON",
-                    help="Merge a wave-model raw JSON (SHGT/SMER/SPER) into the wind raw "
-                         "before normalizing. Series aligned by hour offset per station id.")
     args = ap.parse_args(argv)
 
-    if args.stdin or not args.input:
-        raw_text = sys.stdin.read()
-    else:
-        with open(args.input) as f:
-            raw_text = f.read()
+    with open(args.input) as f:
+        raw = json.load(f)
 
-    raw = json.loads(raw_text)
+    stations = raw.get("stations") if isinstance(raw, dict) else None
+    if not isinstance(stations, dict) or not stations:
+        sys.exit(f"{args.input}: no stations (expected fetch_windguru.py output)")
 
-    if args.merge:
-        with open(args.merge) as f:
-            wave_raw = json.loads(f.read())
-        raw = merge_wave_into_wind(raw, wave_raw)
-
-    # Two possible shapes:
-    #  1) { "stations": { "<id>": <raw>, ... }, "errors": {...} }   (from fetch_windguru.sh)
-    #  2) <raw single station>
     out_stations = {}
-    out_errors = {}
-
-    if isinstance(raw, dict) and "stations" in raw and isinstance(raw["stations"], dict):
-        out_errors = raw.get("errors", {}) or {}
-        for spot_id, station_raw in raw["stations"].items():
-            try:
-                out_stations[spot_id] = normalize_station(spot_id, station_raw, args.tz)
-            except Exception as e:
-                out_errors[spot_id] = f"parse error: {e}"
-    else:
-        spot_id = str(raw.get("id_spot", "unknown"))
+    failures = []
+    for spot_id, station in stations.items():
         try:
-            out_stations[spot_id] = normalize_station(spot_id, raw, args.tz)
-        except Exception as e:
-            out_errors[spot_id] = f"parse error: {e}"
+            out_stations[spot_id] = normalize_station(spot_id, station, args.tz)
+        except (StationDataError, KeyError, TypeError, ValueError) as e:
+            failures.append(f"  station {spot_id}: {e}")
+    if failures:
+        print("Windguru data could not be normalized:", *failures, sep="\n", file=sys.stderr)
+        return 1
 
-    json.dump({"stations": out_stations, "errors": out_errors},
-              sys.stdout, ensure_ascii=False, indent=2)
+    json.dump({"stations": out_stations}, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0
 

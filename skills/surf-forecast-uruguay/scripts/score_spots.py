@@ -32,6 +32,9 @@ Scoring (per spot, per day):
 
 Threshold: score ≥ 50 AND swell_m_max > 0.3
 Rating: ✅ good ≥70   ⚠️ mid 50–69   ❌ bad <50
+
+Every spot is scored against the station in its own windguru_id. If normalized.json has no
+forecast for one of them, the script names the spots and exits with status 1.
 """
 
 import argparse
@@ -42,7 +45,8 @@ CARDINALS = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
              "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
 
 # Map Spanish abbreviations (used in spots.json) to English equivalents
-NORMALIZE_CARD = {"SO": "SW", "O": "W", "NO": "NW", "ESO": "WSW"}
+NORMALIZE_CARD = {"SO": "SW", "O": "W", "NO": "NW",
+                  "SSO": "SSW", "OSO": "WSW", "ONO": "WNW", "NNO": "NNW"}
 
 
 def norm_card(c: str | None) -> str | None:
@@ -173,55 +177,60 @@ def main(argv: list[str]) -> int:
 
     if args.region:
         spots = [s for s in spots if (s.get("region") or "").lower() == args.region.lower()]
+        if not spots:
+            sys.exit(f"no spots in region {args.region!r}")
 
-    # Score each spot against the closest available station:
-    #   1. spot.windguru_id if normalized data has it (best — exact match)
-    #   2. spot.zona_station if normalized data has it
-    #   3. first station with days (last resort)
     stations = normalized.get("stations", {})
     if not stations:
         sys.exit("no stations in normalized input")
 
-    fallback_station = next(iter(stations.values()))
+    missing = [f"  {s.get('slug')}: station {s.get('windguru_id')}" for s in spots
+               if not stations.get(str(s.get("windguru_id") or ""), {}).get("days")]
+    if missing:
+        print("no Windguru forecast for these spots' stations:", *missing, sep="\n",
+              file=sys.stderr)
+        return 1
 
-    def pick_station(spot: dict) -> dict:
-        for key in ("windguru_id", "zona_station"):
-            sid = str(spot.get(key) or "")
-            if sid and sid in stations and stations[sid].get("days"):
-                return stations[sid]
-        return fallback_station
-
-    # Use the fallback station as the canonical timeline.
-    canonical_days = fallback_station.get("days", [])
+    days_by_station = {sid: {d["date"]: d for d in st["days"]} for sid, st in stations.items()}
+    all_dates = sorted({date for days in days_by_station.values() for date in days})
 
     by_day = []
-    for canonical_day in canonical_days:
-        date_key = canonical_day["date"]
+    for date_key in all_dates:
         scored = []
+        weekday = None
         for spot in spots:
-            st = pick_station(spot)
-            day = next((d for d in st.get("days", []) if d["date"] == date_key), None)
+            sid = str(spot["windguru_id"])
+            day = days_by_station[sid].get(date_key)
             if day is None:
                 continue
+            weekday = day["weekday"]
             row = score_spot_day(spot, day)
-            row["station_id"] = st.get("id_spot")
+            row["station_id"] = sid
+            if not stations[sid].get("wave_model_name"):
+                row["swell"] = "Windguru no publica oleaje para esta estación"
             scored.append(row)
+        if not scored:
+            continue
         scored = [s for s in scored if s["score"] >= args.min_score]
         scored.sort(key=lambda x: x["score"], reverse=True)
         by_day.append({
             "date": date_key,
-            "weekday": canonical_day["weekday"],
-            "stats": canonical_day.get("stats"),
+            "weekday": weekday,
             "best": scored[: args.top],
         })
 
+    used = sorted({str(s["windguru_id"]) for s in spots}, key=int)
+    first = stations[used[0]]
+    wind_names = sorted({stations[i].get("model_name") for i in used} - {None})
+    wave_names = sorted({stations[i].get("wave_model_name") for i in used} - {None})
+    model = " + ".join(", ".join(names) for names in (wind_names, wave_names) if names)
     json.dump({
         "by_day": by_day,
         "source": {
-            "stations_used": sorted(stations.keys()),
-            "fallback_station": fallback_station.get("id_spot"),
-            "model": fallback_station.get("model_name") or fallback_station.get("model"),
-            "initdate_utc": fallback_station.get("initdate_utc"),
+            "stations_used": used,
+            "model": model or first.get("model"),
+            "initdate_utc": first.get("initdate_utc"),
+            "wave_initdate_utc": first.get("wave_initdate_utc"),
         }
     }, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")

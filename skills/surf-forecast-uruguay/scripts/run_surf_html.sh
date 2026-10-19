@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# run_surf_html.sh — One-shot orchestrator: fetch → parse → score → HTML.
+# run_surf_html.sh - One-shot orchestrator: Windguru (real browser) → parse → score → HTML.
 #
 # Produces a Windguru-style HTML forecast for Uruguay's surf spots and prints
 # ONLY the absolute path of the resulting HTML on stdout (token-friendly for
@@ -10,15 +10,21 @@
 #   bash scripts/run_surf_html.sh                              # default output path
 #   bash scripts/run_surf_html.sh --out /path/to/forecast.html # explicit path
 #   bash scripts/run_surf_html.sh --max-detail 3 --days 7      # tuning
-#   bash scripts/run_surf_html.sh --no-cache                   # bypass fetch cache
+#   bash scripts/run_surf_html.sh --no-cache                   # re-read every station
+#   bash scripts/run_surf_html.sh --wind-model 117             # IFS-HRES + IFS-WAM
 #
-# Strategy (minimizes API calls on repeated runs thanks to fetch_windguru.sh
-# 90-min cache):
-#   1. Fetch GFS (model 3) + WaveWatch III (model 83) for the union of all
-#      unique windguru_ids and zona_station IDs referenced by spots.json.
-#   2. Merge wave data into wind data per station, then normalize.
-#   3. Score every spot against its own region's station.
-#   4. Render HTML (top cards + up to 3 deduped Windguru-style hourly tables).
+# Steps:
+#   1. setup.sh: virtualenv with the pinned Playwright (first run only).
+#   2. fetch_windguru.py: opens windguru.cz/<id> in headless Chrome for every
+#      windguru_id and zona_station in spots.json and keeps the forecast JSON the
+#      page downloads: the wind model plus the wave model Windguru pairs with it
+#      (cached 90 min per station, one page at a time).
+#   3. parse_windguru.py: pairs wind model and wave model hours, UY local time.
+#   4. score_spots.py: scores every spot against its own station.
+#   5. generate_html.py: top cards + up to 3 deduped Windguru-style hourly tables.
+#
+# If Windguru cannot be read for any station, the run stops with exit status 1
+# and stderr names each failed station and the cause. No report is written.
 
 set -euo pipefail
 
@@ -26,6 +32,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILL_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 SPOTS_JSON="$SKILL_DIR/references/spots.json"
+URUGUAY_BBOX="-35.2,-30.0,-58.6,-53.0"
 
 # ---- defaults ----
 OUT=""
@@ -33,7 +40,6 @@ MAX_DETAIL=3
 DAYS=7
 NO_CACHE=""
 WIND_MODEL=3
-WAVE_MODEL=83
 
 # ---- arg parsing ----
 while [[ $# -gt 0 ]]; do
@@ -43,9 +49,8 @@ while [[ $# -gt 0 ]]; do
     --days) DAYS="$2"; shift 2 ;;
     --no-cache) NO_CACHE="--no-cache"; shift ;;
     --wind-model) WIND_MODEL="$2"; shift 2 ;;
-    --wave-model) WAVE_MODEL="$2"; shift 2 ;;
     -h|--help)
-      sed -n '2,20p' "$0"
+      sed -n '2,27p' "$0"
       exit 0
       ;;
     *) echo "Unknown arg: $1" >&2; exit 2 ;;
@@ -63,41 +68,21 @@ if [[ -z "$OUT" ]]; then
       "${CLAUDE_WORKSPACE_DIR:-}/surf_forecast.html" \
       "$HOME/Projects/surfin/surf_forecast.html" \
       "$WORK/surf_forecast.html"; do
-    if [[ -n "$candidate" ]] && \
-       ( [[ -d "$(dirname "$candidate")" ]] && [[ -w "$(dirname "$candidate")" ]] ); then
+    if [[ -n "$candidate" && -d "$(dirname "$candidate")" && -w "$(dirname "$candidate")" ]]; then
       OUT="$candidate"; break
     fi
   done
   : "${OUT:=$WORK/surf_forecast.html}"
 fi
 
-# ---- collect unique station ids from spots.json ----
-mapfile -t IDS < <(python3 -c "
-import json, sys
-spots = json.load(open(sys.argv[1]))
-ids = set()
-for s in spots:
-    for k in ('windguru_id', 'zona_station'):
-        v = s.get(k)
-        if v:
-            ids.add(str(v))
-for i in sorted(ids):
-    print(i)
-" "$SPOTS_JSON")
+PY="$(bash "$SCRIPT_DIR/setup.sh" --print-python)"
 
-if [[ ${#IDS[@]} -eq 0 ]]; then
-  echo "no station ids found in $SPOTS_JSON" >&2; exit 1
-fi
+# ---- read Windguru for every station in spots.json (cached by default) ----
+"$PY" "$SCRIPT_DIR/fetch_windguru.py" $NO_CACHE --spots "$SPOTS_JSON" \
+  --wind-model "$WIND_MODEL" --bbox="$URUGUAY_BBOX" --out "$WORK/raw.json"
 
-# ---- fetch wind + wave for all stations (cached by default) ----
-bash "$SCRIPT_DIR/fetch_windguru.sh" $NO_CACHE --model "$WIND_MODEL" "${IDS[@]}" \
-  > "$WORK/wind.json"
-bash "$SCRIPT_DIR/fetch_windguru.sh" $NO_CACHE --model "$WAVE_MODEL" "${IDS[@]}" \
-  > "$WORK/wave.json"
-
-# ---- parse + merge ----
-python3 "$SCRIPT_DIR/parse_windguru.py" "$WORK/wind.json" --merge "$WORK/wave.json" \
-  > "$WORK/normalized.json"
+# ---- parse ----
+python3 "$SCRIPT_DIR/parse_windguru.py" "$WORK/raw.json" > "$WORK/normalized.json"
 
 # ---- score ----
 python3 "$SCRIPT_DIR/score_spots.py" "$WORK/normalized.json" "$SPOTS_JSON" --top 40 \
