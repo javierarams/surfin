@@ -28,6 +28,7 @@ import argparse
 import datetime as dt
 import html
 import json
+import math
 import os
 import sys
 from typing import Any
@@ -59,11 +60,13 @@ def fmt_num(v: Any, decimals: int = 1) -> str:
     if v is None:
         return ""
     try:
-        if decimals == 0:
-            return str(int(round(float(v))))
-        return f"{float(v):.{decimals}f}"
+        scale = 10 ** decimals
+        # Math.round semantics: windguru.cz rounds halves up, Python's round() to even.
+        rounded = math.floor(float(v) * scale + 0.5) / scale
     except (TypeError, ValueError):
         return ""
+    text = f"{rounded:.{decimals}f}"
+    return text.rstrip("0").rstrip(".") if decimals else text
 
 
 # ---------- color scales (CSS classes) ----------
@@ -347,12 +350,6 @@ table.wg .day-sep { border-left: 2px solid #334155; }
 .rn-1 { background: #e0f2fe; } .rn-2 { background: #38bdf8; }
 .rn-3 { background: #0284c7; color: white; } .rn-4 { background: #1e40af; color: white; }
 
-/* rating cell scale */
-.rt-good { color: #10b981; }
-.rt-mid { color: #f59e0b; }
-.rt-low { color: #fb923c; }
-.rt-bad { color: #94a3b8; }
-
 .dir-arrow { vertical-align: middle; color: #0f172a; }
 .cell-na { background: #fafafa; color: #cbd5e1; }
 
@@ -531,9 +528,12 @@ def render_detail_table(item: dict, normalized: dict, max_days: int = 7) -> str:
         info.append("Swell óptimo: " + ", ".join(spot["swell_optimo"]))
     if spot.get("valoracion"):
         info.append("Valoración: " + ("★" * int(spot["valoracion"])))
+    info.append(f"Windguru: {station.get('spotname') or sid} ({station.get('model_name')}"
+                + (f" + {station['wave_model_name']})" if station.get("wave_model_name")
+                   else ", sin oleaje en Windguru)"))
     info_str = " · ".join(info)
 
-    wg_url = spot.get("windguru_url") or f"https://www.windguru.cz/{sid}"
+    wg_url = station.get("page_url") or spot.get("windguru_url") or f"https://www.windguru.cz/{sid}"
 
     return (
         f'<div class="spot-detail">'
@@ -584,7 +584,7 @@ def render_html(scored: dict, normalized: dict, spots_by_slug: dict,
   <h1>🌊 Surf Forecast — Uruguay</h1>
   <div class="meta">
     Generado: {esc(generated_at)} · Modelo: {esc(model)} · Init: {esc(initdate)} UTC ·
-    Estaciones: {esc(", ".join(stations_used))} · Fuente: Windguru
+    {len(stations_used)} estaciones · Fuente: Windguru
   </div>
 </header>
 <main>
