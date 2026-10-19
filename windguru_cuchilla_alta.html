@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Windguru API — Cuchilla Alta (282021)</title>
+<style>
+  :root {
+    --bg: #0b1220;
+    --panel: #111a2e;
+    --panel-2: #16223a;
+    --border: #1f2d4a;
+    --text: #e6ecf5;
+    --muted: #8aa0c0;
+    --accent: #5ab0ff;
+    --accent-2: #6affc6;
+    --warn: #ffb347;
+    --danger: #ff6b6b;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(180deg, #07101f 0%, #0b1220 100%);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 32px 20px;
+  }
+  .container { max-width: 1100px; margin: 0 auto; }
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  h1 .accent { color: var(--accent); }
+  .subtitle {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .card h2 {
+    margin: 0 0 12px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .kv {
+    display: grid;
+    grid-template-columns: minmax(110px, auto) 1fr;
+    gap: 8px 14px;
+    font-size: 14px;
+  }
+  .kv dt { color: var(--muted); }
+  .kv dd { margin: 0; color: var(--text); font-family: var(--mono); font-size: 13px; }
+  .pill {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 12px;
+    font-family: var(--mono);
+  }
+  .pill.accent { color: var(--accent); border-color: rgba(90,176,255,0.4); }
+  .pill.green { color: var(--accent-2); border-color: rgba(106,255,198,0.35); }
+  .pill.warn { color: var(--warn); border-color: rgba(255,179,71,0.35); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  td { font-family: var(--mono); }
+  td .name { font-family: inherit; color: var(--text); }
+  td .muted { color: var(--muted); }
+  .map-link {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .map-link:hover { text-decoration: underline; }
+  .warning {
+    background: rgba(255,179,71,0.08);
+    border: 1px solid rgba(255,179,71,0.3);
+    color: var(--warn);
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+  .footnote {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 24px;
+    text-align: center;
+  }
+  details {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 20px;
+    margin-bottom: 16px;
+  }
+  details summary {
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    padding: 6px 0;
+  }
+  details[open] summary { margin-bottom: 12px; }
+  .tide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .tide-grid div {
+    background: var(--panel-2);
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .tide-grid .name { color: var(--accent); margin-right: 6px; }
+  .tide-grid .vals { color: var(--text); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>Windguru API — <span class="accent">Cuchilla Alta</span></h1>
+    <div class="subtitle">
+      id_spot <span class="pill accent">282021</span>
+      &middot; Costa de Oro, Uruguay
+      &middot; respuesta de <code>q=forecast_spots</code>
+    </div>
+  </header>
+
+  <div class="warning">
+    ⚠️ Custom spot — Windguru indica que no se hace responsable de la precisión de spots personalizados.
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>📍 Spot</h2>
+      <dl class="kv">
+        <dt>Nombre</dt><dd>Cuchilla Alta, Costa de Oro</dd>
+        <dt>País</dt><dd>Uruguay 🇺🇾</dd>
+        <dt>Latitud</dt><dd>-34.79785</dd>
+        <dt>Longitud</dt><dd>-55.497786</dd>
+        <dt>Altitud</dt><dd>5 m</dd>
+        <dt>Zona horaria</dt><dd>America/Montevideo (UTC-3)</dd>
+        <dt>id_user</dt><dd>59528</dd>
+      </dl>
+    </div>
+
+    <div class="card">
+      <h2>☀️ Sol y Luna</h2>
+      <dl class="kv">
+        <dt>Salida sol</dt><dd>07:37</dd>
+        <dt>Puesta sol</dt><dd>17:39</dd>
+        <dt>Salida luna</dt><dd>13:03</dd>
+        <dt>Puesta luna</dt><dd>—</dd>
+      </dl>
+    </div>
+
+    <div class="card">
+      <h2>⚙️ Opciones de unidades</h2>
+      <dl class="kv">
+        <dt>Viento</dt><dd>knots</dd>
+        <dt>Temperatura</dt><dd>°C</dd>
+        <dt>Olas</dt><dd>metros</dd>
+        <dt>Marea</dt><dd>cm</dd>
+        <dt>Resolución</dt><dd>3 h</dd>
+        <dt>Horas día</dt><dd>22</dd>
+        <dt>Horas forecast</dt><dd>384 (16 días)</dd>
+      </dl>
+    </div>
+
+    <div class="card">
+      <h2>💨 Umbrales viento</h2>
+      <dl class="kv">
+        <dt>limit1</dt><dd>10.63 kt</dd>
+        <dt>limit2</dt><dd>15.57 kt</dd>
+        <dt>limit3</dt><dd>19.41 kt</dd>
+        <dt>tlimit (temp)</dt><dd>10 °C</dd>
+      </dl>
+    </div>
+
+  </div>
+
+  <div class="card" style="margin-bottom: 24px;">
+    <h2>🛰️ Modelos disponibles para este spot</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>id_model</th>
+          <th>Tab</th>
+          <th>Init</th>
+          <th>Período</th>
+          <th>Rundef</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="pill green">100</span></td>
+          <td><span class="name">BLEND</span> <span class="muted">(default, mezcla de modelos)</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td class="muted">—</td>
+        </tr>
+        <tr>
+          <td><span class="pill accent">3</span></td>
+          <td><span class="name">GFS 13 km</span></td>
+          <td>2026-05-22 12Z</td>
+          <td>6 h</td>
+          <td class="muted">0–240 h + 243–384 h</td>
+        </tr>
+        <tr>
+          <td><span class="pill accent">117</span></td>
+          <td><span class="name">ECMWF</span></td>
+          <td>2026-05-22 06Z</td>
+          <td>6 h</td>
+          <td class="muted">0–144 h + 0–360 h</td>
+        </tr>
+        <tr>
+          <td><span class="pill accent">45</span></td>
+          <td><span class="name">ICON</span></td>
+          <td>2026-05-22 12Z</td>
+          <td>6 h</td>
+          <td class="muted">0–180 h (peso blend: 0.9)</td>
+        </tr>
+        <tr>
+          <td><span class="pill accent">59</span></td>
+          <td><span class="name">GFS extendido</span></td>
+          <td>2026-05-22 12Z</td>
+          <td>12 h</td>
+          <td class="muted">0–240 h (peso blend: 0.7)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-bottom: 24px;">
+    <h2>📊 Parámetros configurados (default tab)</h2>
+    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+      <span class="pill">WINDSPD</span>
+      <span class="pill">GUST</span>
+      <span class="pill">SMER</span>
+      <span class="pill">TMPE</span>
+      <span class="pill">FLHGT</span>
+      <span class="pill">CDC</span>
+      <span class="pill">APCP1s</span>
+      <span class="pill">RATING</span>
+    </div>
+    <p style="color:var(--muted); font-size:12px; margin:14px 0 0;">
+      Skip en blend: <span class="pill warn">APCP1</span> <span class="pill warn">WINDDIR</span>
+    </p>
+  </div>
+
+  <details>
+    <summary>🌊 Constantes armónicas de marea (32 componentes)</summary>
+    <div class="tide-grid">
+      <div><span class="name">2N2</span><span class="vals">0.79 / -58.74°</span></div>
+      <div><span class="name">EPS2</span><span class="vals">0.23 / -70.22°</span></div>
+      <div><span class="name">J1</span><span class="vals">0.08 / -150.31°</span></div>
+      <div><span class="name">K1</span><span class="vals">1.89 / 27.55°</span></div>
+      <div><span class="name">K2</span><span class="vals">0.86 / 139.65°</span></div>
+      <div><span class="name">L2</span><span class="vals">0.05 / 61.47°</span></div>
+      <div><span class="name">LAMBDA2</span><span class="vals">0.10 / 38.99°</span></div>
+      <div><span class="name">M2</span><span class="vals">3.26 / 63.48°</span></div>
+      <div><span class="name">M3</span><span class="vals">0.48 / 47.27°</span></div>
+      <div><span class="name">M4</span><span class="vals">3.44 / -23.39°</span></div>
+      <div><span class="name">M6</span><span class="vals">1.18 / -92.77°</span></div>
+      <div><span class="name">M8</span><span class="vals">0.03 / -134.91°</span></div>
+      <div><span class="name">MF</span><span class="vals">0.42 / -154.26°</span></div>
+      <div><span class="name">MKS2</span><span class="vals">0.05 / 117.58°</span></div>
+      <div><span class="name">MM</span><span class="vals">0.57 / 62.34°</span></div>
+      <div><span class="name">MN4</span><span class="vals">1.69 / -89.79°</span></div>
+      <div><span class="name">MS4</span><span class="vals">1.46 / 14.59°</span></div>
+      <div><span class="name">MSF</span><span class="vals">0.58 / 67.77°</span></div>
+      <div><span class="name">MSQM</span><span class="vals">0.02 / -88.93°</span></div>
+      <div><span class="name">MTM</span><span class="vals">0.14 / -128.66°</span></div>
+      <div><span class="name">MU2</span><span class="vals">0.89 / -54.07°</span></div>
+      <div><span class="name">N2</span><span class="vals">2.73 / -5.28°</span></div>
+      <div><span class="name">N4</span><span class="vals">0.44 / -147.43°</span></div>
+      <div><span class="name">NU2</span><span class="vals">0.28 / 36.29°</span></div>
+      <div><span class="name">O1</span><span class="vals">6.55 / 174.40°</span></div>
+      <div><span class="name">P1</span><span class="vals">0.41 / 120.65°</span></div>
+      <div><span class="name">Q1</span><span class="vals">2.51 / 126.19°</span></div>
+      <div><span class="name">R2</span><span class="vals">0.01 / 141.31°</span></div>
+      <div><span class="name">S1</span><span class="vals">0.60 / 160.51°</span></div>
+      <div><span class="name">S2</span><span class="vals">1.38 / 116.85°</span></div>
+      <div><span class="name">S4</span><span class="vals">0.06 / 62.78°</span></div>
+      <div><span class="name">SA</span><span class="vals">0.02 / 153.85°</span></div>
+      <div><span class="name">SSA</span><span class="vals">0.06 / 142.07°</span></div>
+      <div><span class="name">T2</span><span class="vals">0.01 / -172.90°</span></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>📏 Datums de marea</summary>
+    <dl class="kv" style="grid-template-columns: 80px 1fr;">
+      <dt>MSL</dt><dd>0 cm</dd>
+      <dt>MHW</dt><dd>5.04 cm</dd>
+      <dt>MLW</dt><dd>-5.00 cm</dd>
+      <dt>MHHW</dt><dd>11.37 cm</dd>
+      <dt>MLLW</dt><dd>-13.67 cm</dd>
+      <dt>LAT</dt><dd>-28.40 cm</dd>
+      <dt>HAT</dt><dd>22.43 cm</dd>
+      <dt>MTL</dt><dd>0.02 cm</dd>
+    </dl>
+  </details>
+
+  <p class="footnote">
+    Respuesta cruda de <code>windguru.cz/int/iapi.php?q=forecast_spots&amp;id_spot=282021</code><br>
+    Esta es la query de metadata del spot — no incluye los arrays de forecast (WINDSPD/SHGT/SMER por hora). Para esos hay que llamar al endpoint de forecast por modelo.
+  </p>
+
+</div>
+</body>
+</html>
