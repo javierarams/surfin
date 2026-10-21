@@ -6,9 +6,11 @@ Inputs:
   normalized.json — output of parse_windguru.py (with wave model merged in)
   spots.json      — references/spots.json (40 spots metadata)
 
-Output (stdout, or --out FILE): a self-contained HTML page.
+Output (stdout, or --out FILE): a self-contained HTML page with one tab per
+department (Montevideo, Canelones, Maldonado, Rocha). Each tab holds:
 
-  Top section — cards with the highest-scoring spots across the forecast window.
+  Top section — cards with the department's highest-scoring spots across the
+                forecast window.
   Bottom section — up to N (default 3) Windguru-style hourly tables, one per
                    spot, dedup'd by windguru_id, only including spots that have
                    at least one "surfable" day (score >= 50 AND swell > 0.3) in
@@ -51,6 +53,10 @@ WEEKDAYS_FULL_ES = {
     "monday": "Lunes", "tuesday": "Martes", "wednesday": "Miércoles",
     "thursday": "Jueves", "friday": "Viernes", "saturday": "Sábado", "sunday": "Domingo",
 }
+
+DEPARTMENTS = ["Montevideo", "Canelones", "Maldonado", "Rocha"]
+
+REGION_DEPARTMENT = {"Costa de Oro": "Canelones"}
 
 
 def esc(s: Any) -> str:
@@ -199,6 +205,32 @@ def arrow_svg(degrees: float | None, size: int = 18) -> str:
 
 # ---------- spot selection ----------
 
+def department_of(spot: dict) -> str:
+    region = spot.get("region") or ""
+    return REGION_DEPARTMENT.get(region, region)
+
+
+def department_id(department: str) -> str:
+    return department.lower()
+
+
+def split_by_department(scored: dict, spots_by_slug: dict) -> dict[str, dict]:
+    """One scored-shaped dict per department, in DEPARTMENTS order, each keeping
+    only the rows of that department's spots."""
+    unknown = sorted({s.get("region") or "" for s in spots_by_slug.values()
+                      if department_of(s) not in DEPARTMENTS})
+    if unknown:
+        raise ValueError(f"spots.json regions without a department: {', '.join(unknown)}")
+    return {
+        dep: {"by_day": [
+            {**day, "best": [row for row in day.get("best", [])
+                             if department_of(spots_by_slug.get(row.get("slug"), {})) == dep]}
+            for day in scored.get("by_day", [])
+        ]}
+        for dep in DEPARTMENTS
+    }
+
+
 def pick_detail_spots(scored: dict, spots_by_slug: dict, max_n: int = 3) -> list[dict]:
     """Pick up to max_n spots for the detail tables.
 
@@ -270,6 +302,28 @@ header h1 { margin: 0 0 6px; font-size: 26px; font-weight: 700; letter-spacing: 
 header .meta { opacity: 0.9; font-size: 13px; }
 header .meta a { color: inherit; }
 main { max-width: 1500px; margin: 0 auto; padding: 24px; }
+
+/* department tabs */
+.tabs-bar { position: sticky; top: 0; z-index: 5; background: #f1f5f9;
+            border-bottom: 1px solid #cbd5e1; }
+.tabs { max-width: 1500px; margin: 0 auto; padding: 0 24px; display: flex; gap: 4px;
+        overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs [role="tab"] { appearance: none; border: 0; background: none; font: inherit;
+  font-size: 15px; font-weight: 600; color: #475569; padding: 14px 14px 12px;
+  border-bottom: 3px solid transparent; margin-bottom: -1px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.tabs [role="tab"]:hover { color: #0f172a; }
+.tabs [role="tab"][aria-selected="true"] { color: #0c4a6e; border-bottom-color: #0891b2; }
+.tabs [role="tab"]:focus-visible { outline: 2px solid #0891b2; outline-offset: -2px;
+                                   border-radius: 6px 6px 0 0; }
+.tab-score { font-size: 12px; font-weight: 700; color: white; background: var(--c, #94a3b8);
+             border-radius: 999px; padding: 1px 8px; min-width: 28px; text-align: center; }
+.tab-score.rt-good { --c: #10b981; }
+.tab-score.rt-mid  { --c: #f59e0b; }
+.tab-score.rt-low  { --c: #fb923c; }
+.tab-score.rt-bad  { --c: #ef4444; }
+.tabpanel:focus-visible { outline: 2px solid #0891b2; outline-offset: 8px; border-radius: 4px; }
 
 section h2 { font-size: 20px; margin: 8px 0 16px; font-weight: 600; color: #0f172a; }
 section + section { margin-top: 36px; }
@@ -363,6 +417,9 @@ footer a { color: #0891b2; }
 @media (max-width: 700px) {
   header { padding: 18px 14px; }
   main { padding: 14px; }
+  .tabs { padding: 0 4px; gap: 0; }
+  .tabs [role="tab"] { flex: 1 1 0; min-width: 0; flex-direction: column; justify-content: center;
+                       font-size: 14px; padding: 10px 2px 8px; gap: 4px; }
   .card .score { font-size: 22px; }
 }
 """
@@ -556,14 +613,12 @@ def render_detail_table(item: dict, normalized: dict, max_days: int = 7) -> str:
     )
 
 
-def render_html(scored: dict, normalized: dict, spots_by_slug: dict,
-                detail_spots: list[dict], generated_at: str, days_count: int) -> str:
-    stations_used = scored.get("source", {}).get("stations_used") or []
-    initdate = scored.get("source", {}).get("initdate_utc") or ""
-    model = scored.get("source", {}).get("model") or ""
-
+def render_department_panel(department: str, scored: dict, normalized: dict,
+                            spots_by_slug: dict, max_detail: int, days_count: int,
+                            selected: bool) -> str:
+    dep_id = department_id(department)
     overview = render_overview(scored, spots_by_slug)
-
+    detail_spots = pick_detail_spots(scored, spots_by_slug, max_n=max_detail)
     detail_blocks = "".join(render_detail_table(it, normalized, max_days=days_count)
                              for it in detail_spots)
 
@@ -574,6 +629,81 @@ def render_html(scored: dict, normalized: dict, spots_by_slug: dict,
             '<div class="sub">El forecast no encontró ningún spot con score ≥ 50 y altura de ola > 0.3 m.</div>'
             '</div></div>'
         )
+
+    return (
+        f'<div class="tabpanel" role="tabpanel" id="panel-{dep_id}" '
+        f'aria-labelledby="tab-{dep_id}" tabindex="0"{"" if selected else " hidden"}>'
+        f'  <section>'
+        f'    <h2>🏄 Mejores spots de {esc(department)} para los próximos días</h2>'
+        f'    {overview}'
+        f'  </section>'
+        f'  <section>'
+        f'    <h2>📊 Detalle horario por spot (próximos {days_count} días)</h2>'
+        f'    {detail_blocks}'
+        f'  </section>'
+        f'</div>'
+    )
+
+
+def render_tab(department: str, scored: dict, selected: bool) -> str:
+    dep_id = department_id(department)
+    best = max((row.get("score") or 0 for day in scored.get("by_day", [])
+                for row in day.get("best", [])), default=None)
+    badge = (f'<span class="tab-score {rating_class(best)}">{best}</span>'
+             if best is not None else "")
+    return (
+        f'<button type="button" role="tab" id="tab-{dep_id}" aria-controls="panel-{dep_id}" '
+        f'aria-selected="{"true" if selected else "false"}" tabindex="{0 if selected else -1}">'
+        f'{esc(department)}{badge}</button>'
+    )
+
+
+TABS_JS = """
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function select(tab, focus) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) tab.focus();
+    var top = document.querySelector('header').offsetHeight;
+    if (window.scrollY > top) window.scrollTo(0, top);
+    history.replaceState(null, '', '#' + tab.id.slice(4));
+  }
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () { select(tab, false); });
+    tab.addEventListener('keydown', function (e) {
+      var next = {ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1}[e.key];
+      if (next === undefined) return;
+      e.preventDefault();
+      select(tabs[(next + tabs.length) % tabs.length], true);
+    });
+  });
+  function fromHash() {
+    var tab = document.getElementById('tab-' + location.hash.slice(1));
+    if (tabs.indexOf(tab) >= 0) select(tab, false);
+  }
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
+})();
+"""
+
+
+def render_html(scored: dict, normalized: dict, spots_by_slug: dict,
+                generated_at: str, days_count: int, max_detail: int) -> str:
+    stations_used = scored.get("source", {}).get("stations_used") or []
+    initdate = scored.get("source", {}).get("initdate_utc") or ""
+    model = scored.get("source", {}).get("model") or ""
+
+    by_department = split_by_department(scored, spots_by_slug)
+    tabs = "".join(render_tab(dep, by_department[dep], i == 0)
+                   for i, dep in enumerate(DEPARTMENTS))
+    panels = "".join(render_department_panel(dep, by_department[dep], normalized, spots_by_slug,
+                                             max_detail, days_count, i == 0)
+                     for i, dep in enumerate(DEPARTMENTS))
 
     return f"""<!DOCTYPE html>
 <html lang="es">
@@ -592,21 +722,18 @@ def render_html(scored: dict, normalized: dict, spots_by_slug: dict,
     Fuente: <a href="https://www.windguru.cz" target="_blank" rel="noopener">Windguru</a>
   </div>
 </header>
+<nav class="tabs-bar">
+  <div class="tabs" role="tablist" aria-label="Departamentos">{tabs}</div>
+</nav>
 <main>
-  <section>
-    <h2>🏄 Mejores spots para los próximos días</h2>
-    {overview}
-  </section>
-  <section>
-    <h2>📊 Detalle horario por spot (próximos {days_count} días)</h2>
-    {detail_blocks}
-  </section>
+  {panels}
 </main>
 <footer>
   Datos: <a href="https://www.windguru.cz" target="_blank" rel="noopener">windguru.cz</a> ·
   Scoring custom: viento (40), dirección de swell (30), tamaño de ola (30) ·
   ✅ ≥70 bueno · ⚠️ 50–69 moderado · ❌ &lt;50 no recomendado
 </footer>
+<script>{TABS_JS}</script>
 </body>
 </html>"""
 
@@ -618,7 +745,7 @@ def main(argv: list[str]) -> int:
     ap.add_argument("spots", help="Path to spots.json")
     ap.add_argument("--out", help="Write HTML to this file (default: stdout)")
     ap.add_argument("--max-detail", type=int, default=3,
-                    help="Max number of detailed spot tables (default: 3)")
+                    help="Max number of detailed spot tables per department (default: 3)")
     ap.add_argument("--days", type=int, default=7,
                     help="Days of hourly forecast to include in each detail table (default: 7)")
     args = ap.parse_args(argv)
@@ -632,11 +759,12 @@ def main(argv: list[str]) -> int:
 
     spots_by_slug = {s["slug"]: s for s in spots if s.get("slug")}
 
-    detail_spots = pick_detail_spots(scored, spots_by_slug, max_n=args.max_detail)
-
     generated_at = dt.datetime.now(UY_TZ).strftime("%Y-%m-%d %H:%M")
-    html_out = render_html(scored, normalized, spots_by_slug,
-                            detail_spots, generated_at, args.days)
+    try:
+        html_out = render_html(scored, normalized, spots_by_slug,
+                               generated_at, args.days, args.max_detail)
+    except ValueError as err:
+        sys.exit(str(err))
 
     if args.out:
         with open(args.out, "w", encoding="utf-8") as f:
