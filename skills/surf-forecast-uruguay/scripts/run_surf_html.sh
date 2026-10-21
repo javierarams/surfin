@@ -21,7 +21,8 @@
 #      (cached 90 min per station, one page at a time).
 #   3. parse_windguru.py: pairs wind model and wave model hours, UY local time.
 #   4. score_spots.py: scores every spot against its own station.
-#   5. generate_html.py: top cards + up to 3 deduped Windguru-style hourly tables.
+#   5. generate_html.py: one tab per department (Montevideo, Canelones, Maldonado,
+#      Rocha), each with top cards + up to 3 deduped Windguru-style hourly tables.
 #
 # If Windguru cannot be read for any station, the run stops with exit status 1
 # and stderr names each failed station and the cause. No report is written.
@@ -50,7 +51,7 @@ while [[ $# -gt 0 ]]; do
     --no-cache) NO_CACHE="--no-cache"; shift ;;
     --wind-model) WIND_MODEL="$2"; shift 2 ;;
     -h|--help)
-      sed -n '2,27p' "$0"
+      sed -n '2,28p' "$0"
       exit 0
       ;;
     *) echo "Unknown arg: $1" >&2; exit 2 ;;

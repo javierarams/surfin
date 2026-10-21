@@ -38,16 +38,16 @@ That single script does everything end-to-end:
 2. `scripts/fetch_windguru.py` reads every station in `references/spots.json` (each `windguru_id` and `zona_station`), one page at a time, 2 s apart, ads and trackers blocked. Each station is cached 90 min in `~/.cache/surf-forecast-uruguay/windguru/`, so a repeated run takes seconds; a cold run takes about 2 minutes.
 3. Pairs the wind model hours (GFS 13 km) with the wave model Windguru shows next to it (GFS-Wave), in UY local time (UTC-3).
 4. Scores every spot against **its own station** (never a substitute).
-5. Builds a self-contained HTML page:
-   - **Top:** cards with the best-scoring spot/day combos across the forecast window (color-coded ✅/⚠️/❌).
-   - **Bottom:** up to **3 Windguru-style hourly tables** (rows: wind/gusts/dir, ola/period/dir, temp, nubosidad, precip; columns: each hour for the next 7 days). Tables are deduped by `windguru_id` and only included for spots with at least one acceptable day (score ≥ 50, swell > 0.3 m). If fewer than 3 spots are acceptable, the shortlist is filled with the best-scoring ones. Cells are rounded like windguru.cz, so they can be compared with the site's "GFS 13 km" table one to one.
+5. Builds a self-contained HTML page with **one tab per department**: Montevideo, Canelones (the `Costa de Oro` region in `spots.json`), Maldonado, Rocha. Each tab shows its department's best score in the tab label and holds:
+   - **Top:** cards with the department's best-scoring spot/day combos across the forecast window (color-coded ✅/⚠️/❌).
+   - **Bottom:** up to **3 Windguru-style hourly tables** per department (rows: wind/gusts/dir, ola/period/dir, temp, nubosidad, precip; columns: each hour for the next 7 days). Tables are deduped by `windguru_id` and only included for spots with at least one acceptable day (score ≥ 50, swell > 0.3 m). If fewer than 3 spots are acceptable, the shortlist is filled with the best-scoring ones. Cells are rounded like windguru.cz, so they can be compared with the site's "GFS 13 km" table one to one.
 
 The script prints **only the absolute path** on stdout; don't echo the HTML into your reply. **Hand the user the file path with a `computer://` link** (see "Output format" below).
 
 ### Options
 ```bash
 bash scripts/run_surf_html.sh --out /Users/me/surf.html   # explicit destination
-bash scripts/run_surf_html.sh --max-detail 5              # more detail tables
+bash scripts/run_surf_html.sh --max-detail 5              # more detail tables per department
 bash scripts/run_surf_html.sh --days 5                    # fewer days in tables
 bash scripts/run_surf_html.sh --no-cache                  # re-read every station now
 bash scripts/run_surf_html.sh --wind-model 117            # IFS-HRES 9 km + IFS-WAM 9 km

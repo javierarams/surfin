@@ -10,6 +10,7 @@ see scripts/setup.sh); they are skipped otherwise. They never open a browser.
 import copy
 import importlib.util
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -141,6 +142,45 @@ class EndToEndTest(unittest.TestCase):
         self.assertIn("Windguru no publica oleaje para esta estación", html)
         self.assertRegex(html, r"Generado: \d{4}-\d{2}-\d{2} \d{2}:\d{2} \(hora de Uruguay\)")
         self.assertIn('Fuente: <a href="https://www.windguru.cz"', html)
+        self.assertEqual(re.findall(r'role="tab" id="tab-(\w+)"', html),
+                         ["montevideo", "canelones", "maldonado", "rocha"])
+        self.assertIn('id="panel-montevideo" aria-labelledby="tab-montevideo" tabindex="0">',
+                      html)
+        self.assertIn('id="panel-rocha" aria-labelledby="tab-rocha" tabindex="0" hidden', html)
+        canelones = html[html.index('id="panel-canelones"'):html.index('id="panel-maldonado"')]
+        self.assertIn("Arroyo Pando", canelones)
+
+
+class DepartmentTest(unittest.TestCase):
+    def setUp(self):
+        with open(SKILL / "references" / "spots.json") as f:
+            self.spots_by_slug = {s["slug"]: s for s in json.load(f)}
+
+    def scored_with(self, *slugs: str) -> dict:
+        return {"by_day": [{"date": "2026-10-20", "weekday": "tuesday",
+                            "best": [{"slug": slug, "score": 60} for slug in slugs]}]}
+
+    def test_every_spot_falls_in_one_of_the_four_departments(self):
+        by_department = generate_html.split_by_department(
+            self.scored_with(*self.spots_by_slug), self.spots_by_slug)
+        self.assertEqual(list(by_department),
+                         ["Montevideo", "Canelones", "Maldonado", "Rocha"])
+        counts = {dep: len(scored["by_day"][0]["best"]) for dep, scored in by_department.items()}
+        self.assertEqual(counts, {"Montevideo": 5, "Canelones": 7, "Maldonado": 15, "Rocha": 13})
+
+    def test_costa_de_oro_spots_go_to_canelones(self):
+        by_department = generate_html.split_by_department(
+            self.scored_with("atlantida", "playa-pocitos"), self.spots_by_slug)
+        self.assertEqual([r["slug"] for r in by_department["Canelones"]["by_day"][0]["best"]],
+                         ["atlantida"])
+        self.assertEqual([r["slug"] for r in by_department["Montevideo"]["by_day"][0]["best"]],
+                         ["playa-pocitos"])
+        self.assertEqual(by_department["Rocha"]["by_day"][0]["best"], [])
+
+    def test_region_without_department_is_rejected(self):
+        spots = {"x": {"slug": "x", "region": "Colonia"}}
+        with self.assertRaisesRegex(ValueError, "Colonia"):
+            generate_html.split_by_department(self.scored_with("x"), spots)
 
 
 class FormatTest(unittest.TestCase):
