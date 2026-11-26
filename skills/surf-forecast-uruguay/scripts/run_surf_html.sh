@@ -9,7 +9,7 @@
 # Usage:
 #   bash scripts/run_surf_html.sh                              # default output path
 #   bash scripts/run_surf_html.sh --out /path/to/forecast.html # explicit path
-#   bash scripts/run_surf_html.sh --max-detail 3 --days 7      # tuning
+#   bash scripts/run_surf_html.sh --days 5                     # fewer days
 #   bash scripts/run_surf_html.sh --no-cache                   # re-read every station
 #   bash scripts/run_surf_html.sh --wind-model 117             # IFS-HRES + IFS-WAM
 #
@@ -22,7 +22,8 @@
 #   3. parse_windguru.py: pairs wind model and wave model hours, UY local time.
 #   4. score_spots.py: scores every spot against its own station.
 #   5. generate_html.py: one tab per department (Montevideo, Canelones, Maldonado,
-#      Rocha), each with top cards + up to 3 deduped Windguru-style hourly tables.
+#      Rocha) with every spot of the department and, per Windguru station, its
+#      Windguru-style hourly table drawn once and the spots that share it.
 #
 # If Windguru cannot be read for any station, the run stops with exit status 1
 # and stderr names each failed station and the cause. No report is written.
@@ -37,7 +38,6 @@ URUGUAY_BBOX="-35.2,-30.0,-58.6,-53.0"
 
 # ---- defaults ----
 OUT=""
-MAX_DETAIL=3
 DAYS=7
 NO_CACHE=""
 WIND_MODEL=3
@@ -46,12 +46,11 @@ WIND_MODEL=3
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --out) OUT="$2"; shift 2 ;;
-    --max-detail) MAX_DETAIL="$2"; shift 2 ;;
     --days) DAYS="$2"; shift 2 ;;
     --no-cache) NO_CACHE="--no-cache"; shift ;;
     --wind-model) WIND_MODEL="$2"; shift 2 ;;
     -h|--help)
-      sed -n '2,28p' "$0"
+      sed -n '2,29p' "$0"
       exit 0
       ;;
     *) echo "Unknown arg: $1" >&2; exit 2 ;;
@@ -92,7 +91,7 @@ python3 "$SCRIPT_DIR/score_spots.py" "$WORK/normalized.json" "$SPOTS_JSON" --top
 # ---- render HTML ----
 python3 "$SCRIPT_DIR/generate_html.py" \
   "$WORK/scored.json" "$WORK/normalized.json" "$SPOTS_JSON" \
-  --out "$OUT" --max-detail "$MAX_DETAIL" --days "$DAYS" \
+  --out "$OUT" --days "$DAYS" \
   > /dev/null
 
 # Token-friendly stdout: just the absolute path

@@ -25,7 +25,8 @@
     "notas": "Olas pocas veces al año. Período >12 seg. o viento pampero (SO). Agua marrón.",
     "zona_station": "34552",
     "zona_station_name": "Playa Pocitos",
-    "zona_station_url": "https://www.windguru.cz/34552"
+    "zona_station_url": "https://www.windguru.cz/34552",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/montevideo/montevideo/pocitos/pocitos-33"
   },
   {
     "slug": "playa-buceo",
@@ -52,7 +53,8 @@
     "notas": "Olas pocas veces al año. Período >12 seg. o viento pampero.",
     "zona_station": "58328",
     "zona_station_name": "Playa Buceo",
-    "zona_station_url": "https://www.windguru.cz/58328"
+    "zona_station_url": "https://www.windguru.cz/58328",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/montevideo/montevideo/buceo/buceo-29"
   },
   {
     "slug": "la-pantalla",
@@ -79,7 +81,8 @@
     "notas": "Segunda mejor playa de Montevideo. Período >12 seg. o viento pampero.",
     "zona_station": "1911",
     "zona_station_name": "La Pantalla",
-    "zona_station_url": "https://www.windguru.cz/1911"
+    "zona_station_url": "https://www.windguru.cz/1911",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/montevideo/montevideo/malvin/playa-brava-la-pantalla-31"
   },
   {
     "slug": "playa-honda",
@@ -106,7 +109,8 @@
     "notas": "Mejor playa de Montevideo. Período >12 seg. o viento pampero.",
     "zona_station": "1911",
     "zona_station_name": "Playa Honda",
-    "zona_station_url": "https://www.windguru.cz/1911"
+    "zona_station_url": "https://www.windguru.cz/1911",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/montevideo/montevideo/malvin/playa-honda-32"
   },
   {
     "slug": "playa-carrasco",
@@ -133,7 +137,8 @@
     "notas": "Ideal para principiantes y longboard. Período >12 seg.",
     "zona_station": "1911",
     "zona_station_name": "Playa Carrasco",
-    "zona_station_url": "https://www.windguru.cz/1911"
+    "zona_station_url": "https://www.windguru.cz/1911",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/montevideo/montevideo/carrasco/carrasco-30"
   },
   {
     "slug": "santa-lucia-del-este",
@@ -183,7 +188,8 @@
     "notas": "Olas pocas veces al año. Período >12 seg. o viento pampero SO.",
     "zona_station": "313168",
     "zona_station_name": "Arroyo Pando (referencia)",
-    "zona_station_url": "https://www.windguru.cz/313168"
+    "zona_station_url": "https://www.windguru.cz/313168",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/canelones/neptunia/arroyo-pando-67"
   },
   {
     "slug": "atlantida",
@@ -209,7 +215,8 @@
     "notas": "Orientación S. También funciona con viento SW (picado). Muelle Piedra Lisa para derechas largas.",
     "zona_station": "259217",
     "zona_station_name": "Atlántida",
-    "zona_station_url": "https://www.windguru.cz/259217"
+    "zona_station_url": "https://www.windguru.cz/259217",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/canelones/atlantida/playa-brava-1"
   },
   {
     "slug": "parque-del-plata",
@@ -236,7 +243,8 @@
     "notas": "Desembocadura Arroyo Solís Chico. Necesita bancos bien formados.",
     "zona_station": "212902",
     "zona_station_name": "Parque del Plata",
-    "zona_station_url": "https://www.windguru.cz/212902"
+    "zona_station_url": "https://www.windguru.cz/212902",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/canelones/parque-del-plata/solis-chico-8"
   },
   {
     "slug": "cuchilla-alta",
@@ -261,7 +269,8 @@
     "notas": "Izquierda clásica con muelle. Recorrido ~200m. Drop rápido y vertical.",
     "zona_station": "422330",
     "zona_station_name": "Cuchilla Alta",
-    "zona_station_url": "https://www.windguru.cz/422330"
+    "zona_station_url": "https://www.windguru.cz/422330",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/canelones/cuchilla-alta/cuchilla-alta-6"
   },
   {
     "slug": "balneario-argentino",
@@ -286,7 +295,8 @@
     "notas": "Una de las mejores opciones cerca de Montevideo. Puede dar tubos hasta 1m.",
     "zona_station": "422330",
     "zona_station_name": "Cuchilla Alta/B.Argentino",
-    "zona_station_url": "https://www.windguru.cz/422330"
+    "zona_station_url": "https://www.windguru.cz/422330",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/canelones/balneario-argentino/balneario-argentino-4"
   },
   {
     "slug": "jaureguiberry",
@@ -312,7 +322,8 @@
     "notas": "Desembocadura Solís Grande. Necesita swell potente y alto período. Viento débil es clave.",
     "zona_station": "32742",
     "zona_station_name": "Jaureguiberry",
-    "zona_station_url": "https://www.windguru.cz/32742"
+    "zona_station_url": "https://www.windguru.cz/32742",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/canelones/jaureguiberry/jaureguiberry-9"
   },
   {
     "slug": "solis",
@@ -364,7 +375,8 @@
     "notas": "El Pewe. Protegida del E. Funciona cuando otros spots están picados.",
     "zona_station": "116713",
     "zona_station_name": "Piriápolis",
-    "zona_station_url": "https://www.windguru.cz/116713"
+    "zona_station_url": "https://www.windguru.cz/116713",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/maldonado/san-francisco/san-francisco-27"
   },
   {
     "slug": "faroleta-piriapolis",
@@ -390,7 +402,8 @@
     "notas": "Punta de Rocas. Izquierdas 100m. Peligroso con marea baja. Swell SE potente.",
     "zona_station": "116713",
     "zona_station_name": "Piriápolis",
-    "zona_station_url": "https://www.windguru.cz/116713"
+    "zona_station_url": "https://www.windguru.cz/116713",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/maldonado/punta-colorada/la-faroleta-19"
   },
   {
     "slug": "corralitos-piriapolis",
@@ -441,7 +454,8 @@
     "notas": "Punta de rocas con izquierda. También rompe sobre playa según dirección swell.",
     "zona_station": "366061",
     "zona_station_name": "El Chileno",
-    "zona_station_url": "https://www.windguru.cz/366061"
+    "zona_station_url": "https://www.windguru.cz/366061",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/maldonado/punta-ballena/punta-del-chileno-20"
   },
   {
     "slug": "la-virgen",
@@ -466,7 +480,8 @@
     "notas": "Difícil acceso por rocas. Solo para expertos. Peligroso >1.5m.",
     "zona_station": "37691",
     "zona_station_name": "La Virgen/El Emir",
-    "zona_station_url": "https://www.windguru.cz/37691"
+    "zona_station_url": "https://www.windguru.cz/37691",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/maldonado/punta-del-este/la-virgen-11"
   },
   {
     "slug": "el-emir",
@@ -493,7 +508,8 @@
     "notas": "Playa más concurrida de PDE. El Martillo (derecha) sobre piedras. Protegida del S-SW.",
     "zona_station": "37691",
     "zona_station_name": "El Emir",
-    "zona_station_url": "https://www.windguru.cz/37691"
+    "zona_station_url": "https://www.windguru.cz/37691",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/maldonado/punta-del-este/el-emir-23"
   },
   {
     "slug": "los-dedos",
@@ -520,7 +536,8 @@
     "notas": "Icónica playa de PDE. Protegida del S-SW. Derecha sobre piedras.",
     "zona_station": "405894",
     "zona_station_name": "Los Dedos/La Olla",
-    "zona_station_url": "https://www.windguru.cz/405894"
+    "zona_station_url": "https://www.windguru.cz/405894",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/maldonado/punta-del-este/los-dedos-25"
   },
   {
     "slug": "la-olla",
@@ -546,7 +563,8 @@
     "notas": "Izquierda legendaria de PDE. Comienza sobre rocas, recorrido sobre arena. Corriente fuerte con >1m.",
     "zona_station": "405894",
     "zona_station_name": "La Olla",
-    "zona_station_url": "https://www.windguru.cz/405894"
+    "zona_station_url": "https://www.windguru.cz/405894",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/maldonado/punta-del-este/la-olla-76"
   },
   {
     "slug": "la-plage",
@@ -573,7 +591,8 @@
     "notas": "Frente al ex Hotel San Rafael. Beach brake tubular y rápido. Corrientes y pozos.",
     "zona_station": "405896",
     "zona_station_name": "La Plage",
-    "zona_station_url": "https://www.windguru.cz/405896"
+    "zona_station_url": "https://www.windguru.cz/405896",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/maldonado/punta-del-este/la-plage-22"
   },
   {
     "slug": "boca-de-la-barra",
@@ -600,7 +619,8 @@
     "notas": "Desembocadura arroyo Maldonado. Uno de los spots preferidos. Olas largas y perfectas.",
     "zona_station": "333460",
     "zona_station_name": "Boca de la Barra",
-    "zona_station_url": "https://www.windguru.cz/333460"
+    "zona_station_url": "https://www.windguru.cz/333460",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/maldonado/punta-del-este/boca-de-la-barra-14"
   },
   {
     "slug": "posta-del-cangrejo",
@@ -627,7 +647,8 @@
     "notas": "Izquierda clásica sobre roca, ~150m recorrido sobre arena. Derecha también divertida.",
     "zona_station": "333463",
     "zona_station_name": "Posta del Cangrejo",
-    "zona_station_url": "https://www.windguru.cz/333463"
+    "zona_station_url": "https://www.windguru.cz/333463",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/maldonado/la-barra/la-posta-del-cangrejo-24"
   },
   {
     "slug": "montoya",
@@ -653,7 +674,8 @@
     "notas": "Beach brake clásico PDE. Izquierdas y derechas con buena forma. Puntas de rocas en ambos extremos.",
     "zona_station": "405911",
     "zona_station_name": "Montoya",
-    "zona_station_url": "https://www.windguru.cz/405911"
+    "zona_station_url": "https://www.windguru.cz/405911",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/maldonado/la-barra/montoya-65"
   },
   {
     "slug": "bikini",
@@ -680,7 +702,8 @@
     "notas": "Top de PDE. Izquierda tubular sobre piedras. Drop duro, luego ola amigable.",
     "zona_station": "120882",
     "zona_station_name": "Bikini",
-    "zona_station_url": "https://www.windguru.cz/120882"
+    "zona_station_url": "https://www.windguru.cz/120882",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/maldonado/manantiales/bikini-12"
   },
   {
     "slug": "jose-ignacio",
@@ -733,7 +756,8 @@
     "notas": "La Paloma. Playa extensa, poco profunda. Puede ser tubular. Buena para principiantes.",
     "zona_station": "405916",
     "zona_station_name": "Corumbá/La Paloma",
-    "zona_station_url": "https://www.windguru.cz/405916"
+    "zona_station_url": "https://www.windguru.cz/405916",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/rocha/la-paloma/corumba-50"
   },
   {
     "slug": "los-botes",
@@ -760,7 +784,8 @@
     "notas": "La Paloma. Izquierda de gran calidad. Drop sobre rocas, recorrido ~150m. Soporta bien E-ENE.",
     "zona_station": "37673",
     "zona_station_name": "Los Botes/La Paloma",
-    "zona_station_url": "https://www.windguru.cz/37673"
+    "zona_station_url": "https://www.windguru.cz/37673",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/rocha/la-paloma/los-botes-41"
   },
   {
     "slug": "zanja-honda",
@@ -787,7 +812,8 @@
     "notas": "Una de las mejores izquierdas de Uruguay. Reef a 150m. Recorrido >100m. Peligroso marea baja.",
     "zona_station": "333480",
     "zona_station_name": "Zanja Honda",
-    "zona_station_url": "https://www.windguru.cz/333480"
+    "zona_station_url": "https://www.windguru.cz/333480",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/rocha/la-paloma/zanja-honda-40"
   },
   {
     "slug": "la-balconada",
@@ -811,7 +837,8 @@
     "notas": "La Paloma. Funciona bien con viento E y swell S-SE potente y alto período.",
     "zona_station": "333481",
     "zona_station_name": "La Balconada",
-    "zona_station_url": "https://www.windguru.cz/333481"
+    "zona_station_url": "https://www.windguru.cz/333481",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/rocha/la-paloma/la-balconada-42"
   },
   {
     "slug": "la-aguada",
@@ -837,7 +864,8 @@
     "notas": "La Paloma. Varios bancos de arena. Puede ser tubular. Buena para principiantes.",
     "zona_station": "119340",
     "zona_station_name": "La Aguada",
-    "zona_station_url": "https://www.windguru.cz/119340"
+    "zona_station_url": "https://www.windguru.cz/119340",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/rocha/la-paloma/la-aguada-47"
   },
   {
     "slug": "playa-del-barco",
@@ -864,7 +892,8 @@
     "notas": "La Pedrera. El Trueno es una derecha top de Uruguay. Izquierdas sobre rocas también.",
     "zona_station": "405921",
     "zona_station_name": "La Pedrera",
-    "zona_station_url": "https://www.windguru.cz/405921"
+    "zona_station_url": "https://www.windguru.cz/405921",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/rocha/la-pedrera/playa-del-barco-35"
   },
   {
     "slug": "el-desplayado",
@@ -889,7 +918,8 @@
     "notas": "La Pedrera. Una de las tres mejores derechas de Uruguay. Tubular sobre roca, luego arena.",
     "zona_station": "119342",
     "zona_station_name": "El Desplayado",
-    "zona_station_url": "https://www.windguru.cz/119342"
+    "zona_station_url": "https://www.windguru.cz/119342",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/rocha/la-pedrera/el-desplayado-46"
   },
   {
     "slug": "playa-sur-cabo-polonio",
@@ -914,7 +944,8 @@
     "notas": "Cabo Polonio. Parque nacional. Sin electricidad. Solo en temporada alta.",
     "zona_station": "50158",
     "zona_station_name": "Cabo Polonio",
-    "zona_station_url": "https://www.windguru.cz/50158"
+    "zona_station_url": "https://www.windguru.cz/50158",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/rocha/cabo-polonio/playa-sur-49"
   },
   {
     "slug": "la-viuda-pdd",
@@ -943,7 +974,8 @@
     "notas": "Punta del Diablo. Orientación S-SE. Más tubular que la bahía. Olas todo el año.",
     "zona_station": "467316",
     "zona_station_name": "La Viuda PDD",
-    "zona_station_url": "https://www.windguru.cz/467316"
+    "zona_station_url": "https://www.windguru.cz/467316",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/rocha/punta-del-diablo/la-viuda-37"
   },
   {
     "slug": "bahia-punta-del-diablo",
@@ -1001,7 +1033,8 @@
     "notas": "Punta del Diablo. Orientación E. Fácil, apta para todo nivel. Olas todo el año.",
     "zona_station": "172706",
     "zona_station_name": "Punta del Diablo",
-    "zona_station_url": "https://www.windguru.cz/172706"
+    "zona_station_url": "https://www.windguru.cz/172706",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/rocha/punta-del-diablo/el-rivero-52"
   },
   {
     "slug": "pesqueros-sta-teresa",
@@ -1029,7 +1062,8 @@
     "notas": "Parque Santa Teresa. Izquierdas desde el point, primera sección tubular. Una de las mejores del parque.",
     "zona_station": "93781",
     "zona_station_name": "Pesqueros/Sta.Teresa",
-    "zona_station_url": "https://www.windguru.cz/93781"
+    "zona_station_url": "https://www.windguru.cz/93781",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/rocha/santa-teresa/pesqueros-43"
   },
   {
     "slug": "la-moza-sta-teresa",
@@ -1054,6 +1088,7 @@
     "notas": "Una de las tres mejores derechas de Uruguay. Roca luego arena. Mejores meses: sep-nov, mar-may.",
     "zona_station": "93781",
     "zona_station_name": "La Moza/Sta.Teresa",
-    "zona_station_url": "https://www.windguru.cz/93781"
+    "zona_station_url": "https://www.windguru.cz/93781",
+    "lineup_url": "https://lineup.surf/es/spots/uruguay/rocha/santa-teresa/la-moza-36"
   }
 ]

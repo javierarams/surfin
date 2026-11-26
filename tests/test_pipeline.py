@@ -128,8 +128,7 @@ class EndToEndTest(unittest.TestCase):
             self.assertEqual(scored.returncode, 0, scored.stderr)
             (t / "scored.json").write_text(scored.stdout)
             html_run = run("generate_html.py", str(t / "scored.json"), str(t / "normalized.json"),
-                           str(t / "spots.json"), "--out", str(t / "out.html"),
-                           "--max-detail", "5")
+                           str(t / "spots.json"), "--out", str(t / "out.html"))
             self.assertEqual(html_run.returncode, 0, html_run.stderr)
             html = (t / "out.html").read_text(encoding="utf-8")
             source = json.loads(scored.stdout)["source"]
@@ -148,7 +147,10 @@ class EndToEndTest(unittest.TestCase):
                       html)
         self.assertIn('id="panel-rocha" aria-labelledby="tab-rocha" tabindex="0" hidden', html)
         canelones = html[html.index('id="panel-canelones"'):html.index('id="panel-maldonado"')]
-        self.assertIn("Arroyo Pando", canelones)
+        self.assertIn('id="spot-arroyo-pando"', canelones)
+        self.assertIn('id="spot-atlantida"', canelones)
+        self.assertEqual(canelones.count('<table class="wg">'), 2)
+        self.assertNotIn("Compartida por", canelones)
 
 
 class DepartmentTest(unittest.TestCase):
@@ -181,6 +183,69 @@ class DepartmentTest(unittest.TestCase):
         spots = {"x": {"slug": "x", "region": "Colonia"}}
         with self.assertRaisesRegex(ValueError, "Colonia"):
             generate_html.split_by_department(self.scored_with("x"), spots)
+
+
+class PanelTest(unittest.TestCase):
+    def setUp(self):
+        with open(SKILL / "references" / "spots.json") as f:
+            self.spots_by_slug = {s["slug"]: s for s in json.load(f)}
+        scored = {"by_day": [{"date": "2026-10-20", "weekday": "tuesday",
+                              "best": [{"slug": slug, "score": 60}
+                                       for slug in self.spots_by_slug]}]}
+        self.html = generate_html.render_html(scored, {"stations": {}}, self.spots_by_slug,
+                                              "2026-10-20 06:00", 7)
+
+    def panel(self, dep_id: str) -> str:
+        start = self.html.index(f'id="panel-{dep_id}"')
+        end = self.html.find('role="tabpanel"', start + 1)
+        return self.html[start:end if end >= 0 else len(self.html)]
+
+    def test_every_spot_is_shown_in_its_department_tab(self):
+        for spot in self.spots_by_slug.values():
+            dep_id = generate_html.department_id(generate_html.department_of(spot))
+            self.assertEqual(self.panel(dep_id).count(f'id="spot-{spot["slug"]}"'), 1, spot["slug"])
+        self.assertEqual(self.html.count('class="spot '), len(self.spots_by_slug))
+
+    def test_a_shared_station_is_drawn_once_and_names_its_spots(self):
+        montevideo = self.panel("montevideo")
+        self.assertEqual(montevideo.count('id="st-montevideo-1911"'), 1)
+        block = montevideo[montevideo.index('id="st-montevideo-1911"'):]
+        block = block[:block.index("</section>")]
+        self.assertIn("Compartida por 3 playas", block)
+        for slug in ("la-pantalla", "playa-honda", "playa-carrasco"):
+            self.assertIn(f'id="spot-{slug}"', block)
+        self.assertIn("la misma para", block)
+
+    def test_a_station_shared_across_departments_names_the_other_tab(self):
+        canelones = self.panel("canelones")
+        block = canelones[canelones.index('id="st-canelones-32742"'):]
+        block = block[:block.index("</section>")]
+        self.assertIn("Compartida por 2 playas", block)
+        self.assertIn('<a href="#spot-solis">Solís (Maldonado)</a>', block)
+
+    def test_single_spot_station_is_not_labelled_shared(self):
+        canelones = self.panel("canelones")
+        block = canelones[canelones.index('id="st-canelones-313168"'):]
+        block = block[:block.index("</section>")]
+        self.assertNotIn("Compartida", block)
+        self.assertIn("usada por", block)
+
+    def test_lineup_link_only_for_spots_that_have_one(self):
+        cuchilla = self.spots_by_slug["cuchilla-alta"]["lineup_url"]
+        self.assertIn(f'href="{cuchilla}"', self.html)
+        solis = self.html[self.html.index('id="spot-solis"'):]
+        solis = solis[:solis.index("</article>")]
+        self.assertNotIn("lineup", solis)
+
+
+class SpotsTest(unittest.TestCase):
+    def test_lineup_urls_point_at_lineup_spot_pages(self):
+        with open(SKILL / "references" / "spots.json") as f:
+            urls = [s["lineup_url"] for s in json.load(f) if "lineup_url" in s]
+        self.assertTrue(urls)
+        self.assertEqual(len(urls), len(set(urls)))
+        for url in urls:
+            self.assertRegex(url, r"^https://lineup\.surf/es/spots/uruguay/[a-z0-9/-]+-\d+$")
 
 
 class FormatTest(unittest.TestCase):
