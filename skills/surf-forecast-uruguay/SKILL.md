@@ -38,17 +38,16 @@ That single script does everything end-to-end:
 2. `scripts/fetch_windguru.py` reads every station in `references/spots.json` (each `windguru_id` and `zona_station`), one page at a time, 2 s apart, ads and trackers blocked. Each station is cached 90 min in `~/.cache/surf-forecast-uruguay/windguru/`, so a repeated run takes seconds; a cold run takes about 2 minutes.
 3. Pairs the wind model hours (GFS 13 km) with the wave model Windguru shows next to it (GFS-Wave), in UY local time (UTC-3).
 4. Scores every spot against **its own station** (never a substitute).
-5. Builds a self-contained HTML page with **one tab per department**: Montevideo, Canelones (the `Costa de Oro` region in `spots.json`), Maldonado, Rocha. Each tab shows its department's best score in the tab label and holds:
-   - **Top:** cards with the department's best-scoring spot/day combos across the forecast window (color-coded ✅/⚠️/❌).
-   - **Bottom:** up to **3 Windguru-style hourly tables** per department (rows: wind/gusts/dir, ola/period/dir, temp, nubosidad, precip; columns: each hour for the next 7 days). Tables are deduped by `windguru_id` and only included for spots with at least one acceptable day (score ≥ 50, swell > 0.3 m). If fewer than 3 spots are acceptable, the shortlist is filled with the best-scoring ones. Cells are rounded like windguru.cz, so they can be compared with the site's "GFS 13 km" table one to one.
+5. Builds a self-contained HTML page with **one tab per department**: Montevideo, Canelones (the `Costa de Oro` region in `spots.json`), Maldonado, Rocha. Each tab shows its department's best score in the tab label and holds **every spot of the department**:
+   - **Ranking:** all the department's spots by their best score in the next 7 days, each linking to its card.
+   - **One block per Windguru station:** the cards of the spots scored against it (best score and day, wind/swell fit per component, score per day, notes, link to the spot's page on Lineup when `lineup_url` is set) and the station's **Windguru-style hourly table**, drawn once (rows: wind/gusts/dir, ola/period/dir, temp, nubosidad, precip; columns: each hour for the next 7 days). A station read by several spots is marked "Compartida por N playas" and its table names every spot that uses it, including spots in another department. Cells are rounded like windguru.cz, so they can be compared with the site's "GFS 13 km" table one to one.
 
 The script prints **only the absolute path** on stdout; don't echo the HTML into your reply. **Hand the user the file path with a `computer://` link** (see "Output format" below).
 
 ### Options
 ```bash
 bash scripts/run_surf_html.sh --out /Users/me/surf.html   # explicit destination
-bash scripts/run_surf_html.sh --max-detail 5              # more detail tables per department
-bash scripts/run_surf_html.sh --days 5                    # fewer days in tables
+bash scripts/run_surf_html.sh --days 5                    # fewer days in tables and scores
 bash scripts/run_surf_html.sh --no-cache                  # re-read every station now
 bash scripts/run_surf_html.sh --wind-model 117            # IFS-HRES 9 km + IFS-WAM 9 km
 ```
@@ -235,6 +234,7 @@ All 40 spots with their optimal conditions are in `references/spots.json`. Key f
 - `windguru_id`: Windguru spot ID the spot is scored against
 - `valoracion`: quality rating 1-5
 - `notas`: important context
+- `lineup_url`: the spot's page on [Lineup](https://lineup.surf), taken from Lineup's own spot listing (`https://lineup.surf/sitemap.xml`); absent when Lineup has no page for the spot. Never guess one.
 
 ---
 
